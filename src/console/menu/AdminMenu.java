@@ -2,10 +2,9 @@ package console.menu;
 
 import java.util.ArrayList;
 
-public class AdminMenu  extends MenuGeneratorImpl {
+public class AdminMenu extends MenuGeneratorImpl {
     public String getAnswer() {
-        ArrayList<String> lst=new ArrayList<>();
-        
+        ArrayList<String> lst = new ArrayList<>();
         lst.add("");
         lst.add("МЕНЮ АДМИНИСТРАТОРА");
         lst.add("Сделайте свой выбор:");
@@ -17,7 +16,6 @@ public class AdminMenu  extends MenuGeneratorImpl {
         lst.add("6 - Новое издание;");
         lst.add("7 - Выход.");
         lst.add("> ");
-        
         return generate(lst);
     }
 }

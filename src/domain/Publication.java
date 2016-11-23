@@ -64,9 +64,12 @@ public class Publication extends Entity {
 
     @Override
     public String toString() {
-        return "ИЗДАНИЕ: [Индекс: " + issn + ", \t Название: " 
+        String tempActive;
+        if (active) tempActive="Да"; else tempActive="Нет";
+        
+        return "ИЗДАНИЕ: [Индекс: " + issn + ",  Название: " 
                 + title + ",  Цена за месяц: " + monthCost + ",  Доступно: " 
-                + active + ",  Последнее изменение: " + lastUpdate + "]\n";
+                + tempActive + ",  Последнее изменение: " + lastUpdate + "]\n";
         // переделать формат
     }
 }

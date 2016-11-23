@@ -2,11 +2,10 @@ package console.menu;
 
 import java.util.ArrayList;
 
-public class MainMenu extends MenuGeneratorImpl{
-    
+public class MainMenu extends MenuGeneratorImpl {
+
     public String getAnswer() {
-        ArrayList<String> lst=new ArrayList<>();
-        
+        ArrayList<String> lst = new ArrayList<>();
         lst.add("");
         lst.add("ГЛАВНОЕ МЕНЮ");
         lst.add("Сделайте свой выбор:");
@@ -15,8 +14,6 @@ public class MainMenu extends MenuGeneratorImpl{
         lst.add("3 - Вывод полного списка изданий;");
         lst.add("4 - Выход.");
         lst.add("> ");
-        
         return generate(lst);
     }
- 
 }

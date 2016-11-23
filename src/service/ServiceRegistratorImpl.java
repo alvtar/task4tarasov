@@ -3,7 +3,7 @@ package service;
 import java.sql.SQLException;
 import exception.PersistentException;
 
-
+// Registrates services in ServiceLocator
 public class ServiceRegistratorImpl implements ServiceRegistrator {
 
     public void register() throws PersistentException, SQLException {

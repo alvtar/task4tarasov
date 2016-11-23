@@ -6,6 +6,7 @@ import dao.mysql.UserDaoImpl;
 import domain.User;
 import exception.PersistentException;
 
+
 public class UserServiceImpl implements UserService {
 
     @Override

@@ -95,6 +95,13 @@ public class SubscriberCommands extends Command {
                 logger.info("Publication not found!");
                 break;
             }
+            
+            if (!publication.getActive()) {
+                System.out.println("Извините, данное издание сейчас не доступно для подписки!");
+                logger.info("Publication is not active!");
+                break;
+            }
+            
             subscription.setUserId(getCurrentUserId());
             subscription.setPublicationId(publication.getId());
 
@@ -104,16 +111,21 @@ public class SubscriberCommands extends Command {
                 } while (!temp.matches("^\\d{4}$"));
 
                 tempYear = Integer.parseInt(temp);
-                realYear = calendar.get(Calendar.YEAR);
-                realMonth = calendar.get(Calendar.MONTH);
+                realYear = calendar.get(Calendar.YEAR); 
+                realMonth = calendar.get(Calendar.MONTH)+1; 
 
-                isDatesCorrect = ((tempYear == realYear & realMonth < 12) | tempYear == ++realYear);
+                isDatesCorrect = ((tempYear == realYear & realMonth < 12) | tempYear == (realYear+1));
 
                 if (!isDatesCorrect) {
-                    System.out.println("Введен некорректный год подписки!");
+                    System.out.println("Введен некорректный год подписки. "
+                            + "В декабре возможна подписка только на следующий год!");
                     logger.info("Incorrect year of subscription!");
+                    break;
                 }
+                
             } while (!isDatesCorrect);
+            
+            if (!isDatesCorrect) break;
             subscription.setSubsYear(tempYear);
 
             do {
@@ -126,18 +138,21 @@ public class SubscriberCommands extends Command {
                 month2 = Integer.parseInt(split[1]);
 
                 realYear = calendar.get(Calendar.YEAR);
-                realMonth = calendar.get(Calendar.MONTH);
+                realMonth = calendar.get(Calendar.MONTH)+1;
 
-                isDatesCorrect = ((month1 >= 1 & month2 <= 12 & month2 >= month1)
-                        & ((month1 > realMonth & tempYear == realYear) | (tempYear == ++realYear)));
+                isDatesCorrect = ((month1 >= 1 & month2 <=12 & month2 >= month1 & tempYear == (realYear+1)) 
+                        | (month1 >= 1 & month2 <=12 & month2 >= month1 & month1 > realMonth & tempYear == realYear)); 
 
                 if (!isDatesCorrect) {
                     System.out.println("Введены некорректные месяцы подписки на " + tempYear + " год!");
                     logger.info("Incorrect months for subscription!");
+                    break;
                 }
                     
             } while (!isDatesCorrect);
-
+            
+            if (!isDatesCorrect) break;
+            
             int tempMonths = 0;
             for (int m = month1; m <= month2; m++) {
                 tempMonths = (int) (tempMonths + Math.pow(2, m));

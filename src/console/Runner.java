@@ -128,16 +128,3 @@ public class Runner {
         }
     }
 }
-
-/*
- * private static void display(ResultSet myRs) throws SQLException {
- * System.out.println("----------------------------");
- * System.out.println("login\t password\trole");
- * System.out.println("----------------------------");
- * 
- * while (myRs.next()) { String login = myRs.getString("login"); String password
- * = myRs.getString("password"); Integer role = myRs.getInt("role");
- * System.out.printf("%s \t %s \t\t %d\n", login, password, role); }
- * 
- * System.out.println("----------------------------"); } }
- */

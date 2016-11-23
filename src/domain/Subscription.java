@@ -77,7 +77,7 @@ public class Subscription extends Entity {
     public String toString() {
         return "ПОДПИСКА: [Дата регистрации=" + regDate + ", Подписчик=" + userId.toString() + ", Издание="
                 + publicationId.toString() + ", Год подписки=" + subsYear + ", Месяцы подписки=" + subsMonths + ", Сумма платежа="
-                + paymentSum + "]\n";
+                + paymentSum + " руб.]\n";
         // TODO: переделать формат
     }
 

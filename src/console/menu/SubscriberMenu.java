@@ -2,12 +2,11 @@ package console.menu;
 
 import java.util.ArrayList;
 
-public class SubscriberMenu  extends MenuGeneratorImpl {
+public class SubscriberMenu extends MenuGeneratorImpl {
     public String getAnswer() {
-        ArrayList<String> lst=new ArrayList<>();
-        
+        ArrayList<String> lst = new ArrayList<>();
         lst.add("");
-        lst.add("МЕНЮ ПОЛЬЗОВАТЕЛЯ");
+        lst.add("МЕНЮ ПОДПИСЧИКА");
         lst.add("Сделайте свой выбор:");
         lst.add("1 - Поиск издания по индексу;");
         lst.add("2 - Поиск издания по наименованию;");
@@ -16,7 +15,6 @@ public class SubscriberMenu  extends MenuGeneratorImpl {
         lst.add("5 - Новая подписка;");
         lst.add("6 - Выход.");
         lst.add("> ");
-        
         return generate(lst);
     }
 }
