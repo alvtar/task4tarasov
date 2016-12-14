@@ -21,7 +21,7 @@ ALTER TABLE `users` CHANGE `id` `id` INTEGER NOT NULL AUTO_INCREMENT;
 
 
 
-CREATE TABLE `catalogue` (
+CREATE TABLE `publications` (
     `id` INTEGER NOT NULL,
     `issn` INTEGER NOT NULL UNIQUE,
     `title` VARCHAR(150) NOT NULL,
@@ -31,12 +31,12 @@ CREATE TABLE `catalogue` (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
 
 /* MySQL ignores PRIMARY KEY CONSTRAINT Name */
-ALTER TABLE `catalogue` ADD CONSTRAINT `pk_catalogue` PRIMARY KEY (`id`);
-ALTER TABLE `catalogue` CHANGE `id` `id` INTEGER NOT NULL AUTO_INCREMENT;
+ALTER TABLE `publications` ADD CONSTRAINT `pk_publications` PRIMARY KEY (`id`);
+ALTER TABLE `publications` CHANGE `id` `id` INTEGER NOT NULL AUTO_INCREMENT;
 
 
 
-CREATE TABLE `subscription` (
+CREATE TABLE `subscriptions` (
     `id` INTEGER NOT NULL,
     `regDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `user_id` INTEGER NOT NULL,
@@ -47,9 +47,9 @@ CREATE TABLE `subscription` (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
 
 /* MySQL ignores PRIMARY KEY CONSTRAINT Name */
-ALTER TABLE `subscription` ADD CONSTRAINT `pk_subscription` PRIMARY KEY (`id`);
-ALTER TABLE `subscription` CHANGE `id` `id` INTEGER NOT NULL AUTO_INCREMENT;
+ALTER TABLE `subscriptions` ADD CONSTRAINT `pk_subscriptions` PRIMARY KEY (`id`);
+ALTER TABLE `subscriptions` CHANGE `id` `id` INTEGER NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `subscription` ADD CONSTRAINT `fk_subscription_users_id` FOREIGN KEY (`user_id`) REFERENCES users(id);
-ALTER TABLE `subscription` ADD CONSTRAINT `fk_subscription_catalogue_id` FOREIGN KEY (`issn_id`) REFERENCES catalogue(id);
+ALTER TABLE `subscriptions` ADD CONSTRAINT `fk_subscriptions_users_id` FOREIGN KEY (`user_id`) REFERENCES users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE `subscriptions` ADD CONSTRAINT `fk_subscriptions_publications_id` FOREIGN KEY (`issn_id`) REFERENCES publications(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 

@@ -10,3 +10,4 @@ ON `periodicals`.*
 FROM 'app_periodicals'@'%';
 
 DROP USER 'app_periodicals'@'%';
+

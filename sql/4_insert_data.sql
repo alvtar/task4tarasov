@@ -15,7 +15,7 @@ INSERT INTO `users` (`login`,`password`,`role`,`fullName`,`zipCode`,`address`) V
 ("user10", "000",  1, "Котиков А.А.", 210009,"ул. Космонавтов, д.10, кв. 24");
 
 
-INSERT INTO `catalogue`(`issn`,`title`,`monthCost`,`active`) VALUES
+INSERT INTO `publications`(`issn`,`title`,`monthCost`,`active`) VALUES
 (63889, "газета Советская Белоруссия", 6.6, 1), 
 (74826, "журнал Бухгалтерский учет и анализ", 7.87, 1),
 (74908, "журнал Мишутка", 0.99, 1),
@@ -29,7 +29,7 @@ INSERT INTO `catalogue`(`issn`,`title`,`monthCost`,`active`) VALUES
 (749232, "журнал Вестник Академии МВД Республики Беларусь", 13.33, 1);
 
 
-INSERT INTO `subscription`(`user_id`,`issn_id`,`subsYear`,`subsMonths`,`paymentSum`) VALUES
+INSERT INTO `subscriptions`(`user_id`,`issn_id`,`subsYear`,`subsMonths`,`paymentSum`) VALUES
 (1,1,2017,123,333),
 (2,3,2017,567,777),
 (4,7,2017,11234,37),

@@ -1,7 +1,7 @@
 USE `periodicals`;
 
-TRUNCATE TABLE `subscription`;
+TRUNCATE TABLE `subscriptions`;
 SET FOREIGN_KEY_CHECKS=0;
-TRUNCATE TABLE `catalogue`;
+TRUNCATE TABLE `publications`;
 TRUNCATE TABLE `users`;
 SET FOREIGN_KEY_CHECKS=1;
