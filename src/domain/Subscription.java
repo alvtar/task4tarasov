@@ -1,24 +1,23 @@
 package domain;
 
-import java.time.Year;
 import java.util.Date;
 
 public class Subscription extends Entity {
     private Date regDate;
     
     ///// User user; Publication publication;
-    private Integer user;
-    private Integer publication;
-    private Year subsYear;
+    private Integer userId;
+    private Integer publicationId;
+    private Integer subsYear;
     private Integer subsMonths;
     private Float paymentSum;
 
-    public Subscription(Date regDate, Integer user, Integer publication, Year subsYear, Integer subsMonths,
+    public Subscription(Date regDate, Integer userId, Integer publicationId, Integer subsYear, Integer subsMonths,
             Float paymentSum) {
         super();
         this.regDate = regDate;
-        this.user = user;
-        this.publication = publication;
+        this.userId = userId;
+        this.publicationId = publicationId;
         this.subsYear = subsYear;
         this.subsMonths = subsMonths;
         this.paymentSum = paymentSum;
@@ -37,27 +36,27 @@ public class Subscription extends Entity {
         this.regDate = regDate;
     }
 
-    public Integer getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(Integer user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public Integer getPublication() {
-        return publication;
+    public Integer getPublicationId() {
+        return publicationId;
     }
 
-    public void setPublication(Integer publication) {
-        this.publication = publication;
+    public void setPublicationId(Integer publicationId) {
+        this.publicationId = publicationId;
     }
 
-    public Year getSubsYear() {
+    public Integer getSubsYear() {
         return subsYear;
     }
 
-    public void setSubsYear(Year subsYear) {
+    public void setSubsYear(Integer subsYear) {
         this.subsYear = subsYear;
     }
 
@@ -79,8 +78,8 @@ public class Subscription extends Entity {
     
     @Override
     public String toString() {
-            return "Subscription [regDate="+regDate + ", user=" + user.toString() + ", publication="
-                            + publication.toString() + ", subsYear=" + subsYear + ", subsMonths=" + subsMonths + ", paymentSum=" + paymentSum + "]";
+            return "Subscription [regDate="+regDate + ", user=" + userId.toString() + ", publication="
+                            + publicationId.toString() + ", subsYear=" + subsYear + ", subsMonths=" + subsMonths + ", paymentSum=" + paymentSum + "]";
             // переделать формат
     }
 

@@ -132,7 +132,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
     @Override
     public User readByLogin(String login) throws PersistentException {
-        String sql = "SELECT `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` WHERE `login` = ?";
+        String sql = "SELECT `id`, `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` WHERE `login` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -167,7 +167,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
     @Override
     public List<User> read() throws PersistentException {
-        String sql = "SELECT `identity`, `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` ORDER BY `login`";
+        String sql = "SELECT `id`, `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` ORDER BY `login`";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {

@@ -39,9 +39,9 @@ ALTER TABLE `publications` CHANGE `id` `id` INTEGER NOT NULL AUTO_INCREMENT;
 CREATE TABLE `subscriptions` (
     `id` INTEGER NOT NULL,
     `regDate` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `user_id` INTEGER NOT NULL,
-    `issn_id` INTEGER NOT NULL,
-    `subsYear` YEAR NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `publicationId` INTEGER NOT NULL,
+    `subsYear` INTEGER NOT NULL,
     `subsMonths` TINYINT NOT NULL,
     `paymentSum` FLOAT unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
@@ -50,6 +50,9 @@ CREATE TABLE `subscriptions` (
 ALTER TABLE `subscriptions` ADD CONSTRAINT `pk_subscriptions` PRIMARY KEY (`id`);
 ALTER TABLE `subscriptions` CHANGE `id` `id` INTEGER NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `subscriptions` ADD CONSTRAINT `fk_subscriptions_users_id` FOREIGN KEY (`user_id`) REFERENCES users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
-ALTER TABLE `subscriptions` ADD CONSTRAINT `fk_subscriptions_publications_id` FOREIGN KEY (`issn_id`) REFERENCES publications(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE `subscriptions` ADD CONSTRAINT `fk_subscriptions_users_id` FOREIGN KEY (`userId`) 
+REFERENCES users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE `subscriptions` ADD CONSTRAINT `fk_subscriptions_publications_id` FOREIGN KEY (`publicationId`) 
+REFERENCES publications(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 

@@ -21,7 +21,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
 
     @Override
     public Integer create(Subscription subscription) throws PersistentException {
-        String sql = "INSERT INTO `subscriptions` (`regDate`, `user_id`, `issn_id`, `subsYear`, `subsMonths`, `paymentSum`) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `subscriptions` (`regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum`) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -29,12 +29,12 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             statement.setDate(1, new java.sql.Date(System.currentTimeMillis()));
             
          // ???????????????? ID
-            statement.setInt(2, subscription.getUser().getId());
-            statement.setInt(3, subscription.getPublication().getId());
+            statement.setInt(2, subscription.getUserId());
+            statement.setInt(3, subscription.getPublicationId());
             
-      // ???????????????? Year
-            
-            statement.setDate(4, new java.sql.Date(subscription.getSubsYear().getValue()));
+            // ???????????????? Year
+            //statement.setDate(4, new java.sql.Date(subscription.getSubsYear().getValue()));
+            statement.setInt(4, subscription.getSubsYear());
             statement.setInt(5, subscription.getSubsMonths());
             
          // ???????????????? Sum
@@ -66,7 +66,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
     
     @Override
     public Subscription read(Integer id) throws PersistentException {
-        String sql = "SELECT `regDate`, `user_id`, `issn_id`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` WHERE `id` = ?";
+        String sql = "SELECT `regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` WHERE `id` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -77,9 +77,10 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             if (resultSet.next()) {
                 subscription = new Subscription();
                 subscription.setId(id);
-                subscription.setUser(resultSet.getInt("user_id"));
-                subscription.setPublication(resultSet.getInt("issn_id"));
-                /////subscription.setRole(Role.getById(resultSet.getInt("role")));
+                subscription.setRegDate(resultSet.getDate("regDate"));
+                subscription.setUserId(resultSet.getInt("userId"));
+                subscription.setPublicationId(resultSet.getInt("publicationId"));
+                subscription.setSubsYear(resultSet.getInt("subsYear"));
                 
                // new java.sql.Date(subscription.getSubsYear().getValue());
            // ????????? Year     
@@ -106,16 +107,15 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
 
     @Override
     public void update(Subscription subscription) throws PersistentException {
-        String sql = "UPDATE `subscriptions` SET `login` = ?, `password` = ?, `role` = ?, `fullName`=?, `zipCode`=?, `address`=? WHERE `id` = ?";
+        String sql = "UPDATE `subscriptions` SET `userId` = ?, `publicationId` = ?, `subsYear` = ?, `subsMonths`=?, `paymentSum`=? WHERE `id` = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, subscription.getLogin());
-            statement.setString(2, subscription.getPassword());
-            statement.setInt(3, subscription.getRole().getId());
-            statement.setString(4, subscription.getFullName());
-            statement.setInt(5, subscription.getZipCode());
-            statement.setString(6, subscription.getAddress());
+            statement.setInt(1, subscription.getUserId());
+            statement.setInt(2, subscription.getPublicationId());
+            statement.setInt(3, subscription.getSubsYear());
+            statement.setInt(4, subscription.getSubsMonths());
+            statement.setFloat(5, subscription.getPaymentSum());
             statement.setInt(7, subscription.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -147,24 +147,24 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
     }
 
     @Override
-    public Subscription readByLogin(String login) throws PersistentException {
-        String sql = "SELECT `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `subscriptions` WHERE `login` = ?";
+    public Subscription readBySubsYear(Integer subsYear) throws PersistentException {
+        String sql = "SELECT `id`, `regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` WHERE `subYear` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, login);
+            statement.setInt(1, subsYear);
             resultSet = statement.executeQuery();
             Subscription subscription = null;
             if (resultSet.next()) {
                 subscription = new Subscription();
                 subscription.setId(resultSet.getInt("id"));
-                subscription.setLogin(login);
-                subscription.setPassword(resultSet.getString("password"));
-                subscription.setRole(Role.getById(resultSet.getInt("role")));
-                subscription.setFullName(resultSet.getString("fullName"));
-                subscription.setZipCode(resultSet.getInt("zipCode"));
-                subscription.setAddress(resultSet.getString("address"));
+                subscription.setRegDate(resultSet.getDate("regDate"));
+                subscription.setUserId(resultSet.getInt("userId"));
+                subscription.setPublicationId(resultSet.getInt("publicationId"));
+                subscription.setSubsYear(resultSet.getInt("subsYear"));
+                subscription.setSubsMonths(resultSet.getInt("subsMonths"));
+                subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
             }
             return subscription;
         } catch (SQLException e) {
@@ -183,7 +183,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
 
     @Override
     public List<Subscription> read() throws PersistentException {
-        String sql = "SELECT `identity`, `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `subscriptions` ORDER BY `login`";
+        String sql = "SELECT `id`,`regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` ORDER BY `regDate`";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -194,12 +194,12 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             while (resultSet.next()) {
                 subscription = new Subscription();
                 subscription.setId(resultSet.getInt("id"));
-                subscription.setLogin(resultSet.getString("login"));
-                subscription.setPassword(resultSet.getString("password"));
-                subscription.setRole(Role.getById(resultSet.getInt("role")));
-                subscription.setFullName(resultSet.getString("fullName"));
-                subscription.setZipCode(resultSet.getInt("zipCode"));
-                subscription.setAddress(resultSet.getString("address"));
+                subscription.setRegDate(resultSet.getDate("regDate"));
+                subscription.setUserId(resultSet.getInt("userId"));
+                subscription.setPublicationId(resultSet.getInt("publicationId"));
+                subscription.setSubsYear(resultSet.getInt("subsYear"));
+                subscription.setSubsMonths(resultSet.getInt("subsMonths"));
+                subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
                 subscriptions.add(subscription);
             }
             return subscriptions;
@@ -217,6 +217,4 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
         }
     }
 
-    
-    
 }

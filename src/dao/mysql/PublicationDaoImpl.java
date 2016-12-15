@@ -27,6 +27,8 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             statement.setString(2, publication.getTitle());
             statement.setFloat(3, publication.getMonthCost());
             statement.setBoolean(4, publication.getActive());
+            
+            // ?????????????????? auto set
             statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
 
             statement.executeUpdate();

@@ -29,7 +29,7 @@ INSERT INTO `publications`(`issn`,`title`,`monthCost`,`active`) VALUES
 (749232, "журнал Вестник Академии МВД Республики Беларусь", 13.33, 1);
 
 
-INSERT INTO `subscriptions`(`user_id`,`issn_id`,`subsYear`,`subsMonths`,`paymentSum`) VALUES
+INSERT INTO `subscriptions`(`userId`,`publicationId`,`subsYear`,`subsMonths`,`paymentSum`) VALUES
 (1,1,2017,123,333),
 (2,3,2017,567,777),
 (4,7,2017,11234,37),
