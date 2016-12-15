@@ -5,13 +5,15 @@ import java.util.Date;
 
 public class Subscription extends Entity {
     private Date regDate;
-    private User user;
-    private Publication publication;
+    
+    ///// User user; Publication publication;
+    private Integer user;
+    private Integer publication;
     private Year subsYear;
     private Integer subsMonths;
     private Float paymentSum;
 
-    public Subscription(Date regDate, User user, Publication publication, Year subsYear, Integer subsMonths,
+    public Subscription(Date regDate, Integer user, Integer publication, Year subsYear, Integer subsMonths,
             Float paymentSum) {
         super();
         this.regDate = regDate;
@@ -35,19 +37,19 @@ public class Subscription extends Entity {
         this.regDate = regDate;
     }
 
-    public User getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 
-    public Publication getPublication() {
+    public Integer getPublication() {
         return publication;
     }
 
-    public void setPublication(Publication publication) {
+    public void setPublication(Integer publication) {
         this.publication = publication;
     }
 

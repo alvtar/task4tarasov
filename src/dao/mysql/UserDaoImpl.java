@@ -131,22 +131,24 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public User read(String login, String password) throws PersistentException {
-        String sql = "SELECT `id`, `role` FROM `users` WHERE `login` = ? AND `password` = ?";
+    public User readByLogin(String login) throws PersistentException {
+        String sql = "SELECT `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` WHERE `login` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, login);
-            statement.setString(2, password);
             resultSet = statement.executeQuery();
             User user = null;
             if (resultSet.next()) {
                 user = new User();
                 user.setId(resultSet.getInt("id"));
                 user.setLogin(login);
-                user.setPassword(password);
+                user.setPassword(resultSet.getString("password"));
                 user.setRole(Role.getById(resultSet.getInt("role")));
+                user.setFullName(resultSet.getString("fullName"));
+                user.setZipCode(resultSet.getInt("zipCode"));
+                user.setAddress(resultSet.getString("address"));
             }
             return user;
         } catch (SQLException e) {
@@ -199,9 +201,4 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         }
     }
 
-    @Override
-    public User readById(Integer id) throws PersistentException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

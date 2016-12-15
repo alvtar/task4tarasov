@@ -56,11 +56,11 @@ public class Publication extends Entity {
         this.active = active;
     }
 
-    public Date getlastUpdate() {
+    public Date getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setlastUpdate(Date lastUpdate) {
+    public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
     
