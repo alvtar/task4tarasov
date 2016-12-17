@@ -17,20 +17,20 @@ final public class ConnectionPool {
     private static Logger logger = Logger.getLogger(ConnectionPool.class);
     
     private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
-    private Properties db_properties;
-    private String db_url;;
-    private String db_user;
-    private String db_password;
+    private static Properties db_properties;
+    private static String db_url;;
+    private static String db_user;
+    private static String db_password;
     
     
-    //public static final String DB_URL = "jdbc:mysql://localhost:3306/Elective?useUnicode=true&characterEncoding=UTF-8";
+    //public static final String DB_URL = "jdbc:mysql://localhost:3306/periodicals?useUnicode=true&characterEncoding=UTF-8";
     //public static final String DB_USER = "admin";
     //public static final String DB_PASSWORD = "admin";
 
     private BlockingQueue<Connection> connections = new LinkedBlockingQueue<Connection>();
 
-    private ConnectionPool() {
-    }
+    public ConnectionPool() {}
+    
 
     synchronized public Connection getConnection() throws PersistentException {
         Connection connection = null;

@@ -1,5 +1,5 @@
 package service;
 
-public class SubscriptionServiceImpl {
+public class SubscriptionServiceImpl implements SubscriptionService {
 
 }

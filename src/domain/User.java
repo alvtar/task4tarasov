@@ -78,7 +78,7 @@ public class User extends Entity {
     public String toString() {
             return "User [login="+login + ", password=" + password + ", role="
                             + role + ", fullName=" + fullName + ", zipCode=" + zipCode
-                            + ", address=" + address + "]";
+                            + ", address=" + address + "]\n";
             // переделать формат
     }
 

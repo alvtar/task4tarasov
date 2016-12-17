@@ -1,6 +1,6 @@
 package console;
 
-import java.io.FileInputStream;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import dao.pool.ConnectionPool;
+import domain.User;
+import service.UserServiceImpl;
 
 public class Runner {
 
@@ -19,7 +22,7 @@ public class Runner {
         ResultSet res = null;
         DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         try {
-                // 0. Read the properties
+   /*             // 0. Read the properties
                 Properties prop = new Properties();
                 prop.load(new FileInputStream("db.properties"));
                 
@@ -35,7 +38,27 @@ public class Runner {
                 conn = DriverManager.getConnection(db_url,prop);
                 //conn = DriverManager.getConnection(db_url, db_user, db_password);
 
-                // 2. Statement
+                
+    */
+            
+            ConnectionPool pool=new ConnectionPool();
+            pool.init();
+            
+            User user=new UserServiceImpl().findById(1);
+            
+            System.out.println(user);
+            
+            
+            user.setId(null);
+            user.setLogin("TEST");
+            
+            
+            
+            new UserServiceImpl().save(user);
+            
+            System.out.println(new UserServiceImpl().findAll());
+                
+  /*              // 2. Statement
                 st = conn.createStatement();
 
                 // 3. Execute SQL query
@@ -71,7 +94,7 @@ public class Runner {
                 // 5-2. Display the result set
                 System.out.println("\nReuse the prepared statement:  role = 1 (customer).\nList of users with the role = 'customer':");
                 display(res);
-
+*/
         } catch (Exception exc) {
                 exc.printStackTrace();
         } finally {
