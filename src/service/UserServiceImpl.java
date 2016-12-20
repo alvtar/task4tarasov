@@ -24,13 +24,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByLoginAndPassword(String login, String password) throws PersistentException {
-        // TODO Auto-generated method stub
-        return null;
+        UserDao dao = new UserDaoImpl();
+        return dao.findByLoginAndPassword(login, password);
+
     }
 
     @Override
     public void save(User user) throws PersistentException {
-        UserDao dao = new UserDaoImpl();;
+        UserDao dao = new UserDaoImpl();
         if(user.getId() != null) {
                 //if(user.getPassword() != null) {
                         //user.setPassword(user.getPassword());

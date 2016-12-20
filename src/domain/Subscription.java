@@ -79,7 +79,7 @@ public class Subscription extends Entity {
     @Override
     public String toString() {
             return "Subscription [regDate="+regDate + ", user=" + userId.toString() + ", publication="
-                            + publicationId.toString() + ", subsYear=" + subsYear + ", subsMonths=" + subsMonths + ", paymentSum=" + paymentSum + "]";
+                            + publicationId.toString() + ", subsYear=" + subsYear + ", subsMonths=" + subsMonths + ", paymentSum=" + paymentSum + "]\n";
             // переделать формат
     }
 

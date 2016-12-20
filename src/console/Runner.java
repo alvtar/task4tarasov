@@ -2,25 +2,58 @@ package console;
 
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
-import dao.pool.ConnectionPool;
-import domain.User;
-import service.UserServiceImpl;
+import java.util.List;
+import exception.PersistentException;
+import console.menu.*;
+import domain.*;
+import service.*;
+
+
+
+
 
 public class Runner {
+    
+    static Connection conn=null;
+    static Statement st = null;
+    static PreparedStatement prSt = null;
+    static ResultSet res = null;
+    
+    
+    public static void init() throws PersistentException, SQLException  {
 
-    public static void main(String[] args) throws SQLException {
-
-        Connection conn = null;
-        Statement st = null;
-        PreparedStatement prSt = null;
-        ResultSet res = null;
-        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        
+        new ServiceRegistratorImpl();
+        /*
+        ConnectionPool pool=new ConnectionPool();
+        pool.init();   
+        ServiceLocator locator = new ServiceLocator();
+    
+        UserService user=new UserServiceImpl();
+        locator.registerService(UserService.class,user);
+        
+        PublicationService publication=new PublicationServiceImpl();
+        locator.registerService(PublicationService.class, publication);
+        
+        SubscriptionService subscription=new SubscriptionServiceImpl();
+        locator.registerService(SubscriptionService.class, subscription);
+        
+        ServiceLocator.setLocator(locator);*/
+        
+    }
+    
+    
+    
+    
+    public static void main(String[] args) throws PersistentException, SQLException {
+        int role;
+        
+        init();
+        
         try {
    /*             // 0. Read the properties
                 Properties prop = new Properties();
@@ -40,23 +73,73 @@ public class Runner {
 
                 
     */
+              
             
-            ConnectionPool pool=new ConnectionPool();
-            pool.init();
+            //User user=new UserServiceImpl().findById(1);
+
+            //UserService service = ServiceLocator.getService(UserService.class);
+            //List<User> users = service.findAll();
             
-            User user=new UserServiceImpl().findById(1);
+            MenuGenerator menu =new MainMenu();
             
-            System.out.println(user);
+            while (true) {
+
+                switch (menu.getAnswer()) {
+                case "1": {
+                   // System.out.println("Clients="+ new CountSumClients().countSum(tarList.getTariffs()));
+                    UserService service = ServiceLocator.getService(UserService.class);
+                    //MenuGenerator = new 
+                    
+           //??????????  login=0       
+                    String login=new UserLoginMenu().getAnswer();
+                    
+                    //System.out.println("login="+login);
+                    String password=new UserPasswordMenu().getAnswer();
+                    
+                    //User user = service.findByLoginAndPassword(login,password);
+                    User user=service.findByLoginAndPassword(login,password);
+                    
+                   //User user = service.findByLoginAndPassword(service.new UserLoginMenu().getAnswer()).getLogin()),service.findById((new UserPasswordMenu().getAnswer())).getPassword());
+                    
+                    //output.showList((new SelectTariff().getSelected(tarList.getTariffs(), new SubMenu1().getAnswer(),new SubMenu2().getAnswer())));
+                    System.out.println(user);
+                    System.out.println(user.toString());
+                    System.out.println(user.getFullName());
+                    
+                    break;
+                }
+                case "2": {
+                    //output.showList(new SortByFee().getSorted(tarList.getTariffs()));
+                    break;
+                }
+
+                case "3": {
+
+               ///     ServiceLocator.getService(UserService.class).findAll();
+                    PublicationService service = ServiceLocator.getService(PublicationService.class);
+                    List<Publication> publications = service.findAll();
+                    System.out.println(publications.toString());
+      
+                    break;
+                }
+                
+                case "4": return;
+                }
             
             
-            user.setId(null);
-            user.setLogin("TEST");
+            
+            
+            //System.out.println(user);
+            
+            
+            //user.setId(null);
+            //user.setLogin("TEST");
             
             
             
-            new UserServiceImpl().save(user);
+            //new UserServiceImpl().save(user);
             
-            System.out.println(new UserServiceImpl().findAll());
+            //System.out.println(users);
                 
   /*              // 2. Statement
                 st = conn.createStatement();
@@ -95,7 +178,7 @@ public class Runner {
                 System.out.println("\nReuse the prepared statement:  role = 1 (customer).\nList of users with the role = 'customer':");
                 display(res);
 */
-        } catch (Exception exc) {
+        }} catch (Exception exc) {
                 exc.printStackTrace();
         } finally {
                 if (res != null) {

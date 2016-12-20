@@ -1,0 +1,19 @@
+package console.menu;
+
+import java.util.ArrayList;
+
+
+public class UserLoginMenu extends MenuGeneratorImpl{
+
+    public String getAnswer() {
+        ArrayList<String> lst=new ArrayList<>();
+        
+        lst.add("");
+        lst.add("МЕНЮ ВХОДА В СИСТЕМУ");
+        lst.add("Введите имя пользователя");
+        lst.add("----- ?: ");
+        
+        return generate(lst);
+    }
+ 
+}

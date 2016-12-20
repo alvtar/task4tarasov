@@ -66,8 +66,8 @@ public class Publication extends Entity {
     
     @Override
     public String toString() {
-            return "Publication [issn="+issn + ", title=" + title + ", monthCost="
-                            + monthCost + ", active=" + active + ", lastUpdate=" + lastUpdate + "]";
+            return "Publication [Индекс: "+issn + ", Название: " + title + ", Цена за месяц: "
+                            + monthCost + ", Доступно: " + active + ", Последнее изменение: " + lastUpdate + "]\n";
             // переделать формат
     }
 

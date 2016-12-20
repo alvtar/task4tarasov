@@ -1,5 +1,6 @@
 package dao.mysql;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import dao.PublicationDao;
+import dao.pool.ConnectionPool;
 import domain.Publication;
 import exception.PersistentException;
 
@@ -134,6 +136,10 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
     @Override
     public List<Publication> read() throws PersistentException {
         String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` ORDER BY `id`";
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {

@@ -147,6 +147,10 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         String sql = "SELECT `id`, `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` WHERE `login` = ? AND `password` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, login);

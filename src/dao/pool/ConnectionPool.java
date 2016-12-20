@@ -29,7 +29,8 @@ final public class ConnectionPool {
 
     private BlockingQueue<Connection> connections = new LinkedBlockingQueue<Connection>();
 
-    public ConnectionPool() {}
+    
+    public ConnectionPool() { }
     
 
     synchronized public Connection getConnection() throws PersistentException {
@@ -60,8 +61,12 @@ final public class ConnectionPool {
         }
     }
 
-    public void init() throws PersistentException {
+    public void init() throws PersistentException, SQLException {
+        
         try {
+            
+            //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            
             Class.forName(DRIVER_CLASS);
             
             db_properties = new Properties();
