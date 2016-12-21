@@ -15,5 +15,5 @@ public interface PublicationService {
 
     void save(Publication publication) throws PersistentException;
 
-    void delete(Integer identity) throws PersistentException;
+    void delete(Integer id) throws PersistentException;
 }

@@ -1,13 +1,11 @@
 package service;
 
 import java.util.List;
-
 import dao.SubscriptionDao;
-import dao.UserDao;
 import dao.mysql.SubscriptionDaoImpl;
-import dao.mysql.UserDaoImpl;
 import domain.Subscription;
 import exception.PersistentException;
+
 
 public class SubscriptionServiceImpl implements SubscriptionService {
 
@@ -49,13 +47,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         } else {
             subscription.setId(dao.create(subscription));
         }
-
     }
 
     @Override
     public void delete(Integer id) throws PersistentException {
         SubscriptionDao dao = new SubscriptionDaoImpl();
-        dao.delete(id);  
+        dao.delete(id);
     }
-
 }

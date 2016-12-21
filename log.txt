@@ -58,3 +58,11 @@ Connection was received from pool. Current pool size: 10 used connections; 0 fre
 2016-12-21 17:29:10,562
 DEBUG	dao.pool.ConnectionPool.getConnection:60
 Connection was received from pool. Current pool size: 11 used connections; 0 free connection
+
+2016-12-21 18:31:47,406
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-21 18:32:31,796
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection

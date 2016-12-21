@@ -1,7 +1,9 @@
 package exception;
 
 public class PersistentException extends Exception {
-	public PersistentException() {}
+    private static final long serialVersionUID = 1L;
+
+    public PersistentException() {}
 
 	public PersistentException(String message, Throwable cause) {
 		super(message, cause);
