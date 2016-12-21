@@ -1,0 +1,60 @@
+
+2016-12-21 17:24:25,609
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-21 17:24:45,609
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 2 used connections; 8 free connection
+
+2016-12-21 17:24:58,328
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 3 used connections; 7 free connection
+
+2016-12-21 17:26:17,468
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-21 17:28:23,734
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-21 17:28:30,671
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 2 used connections; 8 free connection
+
+2016-12-21 17:28:43,500
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 3 used connections; 7 free connection
+
+2016-12-21 17:28:46,765
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 4 used connections; 6 free connection
+
+2016-12-21 17:28:48,687
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 5 used connections; 5 free connection
+
+2016-12-21 17:28:50,343
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 6 used connections; 4 free connection
+
+2016-12-21 17:28:52,203
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 7 used connections; 3 free connection
+
+2016-12-21 17:29:01,062
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 8 used connections; 2 free connection
+
+2016-12-21 17:29:03,109
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 9 used connections; 1 free connection
+
+2016-12-21 17:29:05,343
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 10 used connections; 0 free connection
+
+2016-12-21 17:29:10,562
+DEBUG	dao.pool.ConnectionPool.getConnection:60
+Connection was received from pool. Current pool size: 11 used connections; 0 free connection

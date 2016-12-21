@@ -3,8 +3,9 @@ package service;
 import java.util.List;
 
 import dao.*;
-import dao.mysql.*;
-import domain.*;
+import dao.mysql.PublicationDaoImpl;
+import dao.mysql.UserDaoImpl;
+import domain.Publication;
 import exception.PersistentException;
 
 
@@ -19,8 +20,8 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public Publication findById(Integer id) throws PersistentException {
-        // TODO Auto-generated method stub
-        return null;
+        PublicationDao dao = new PublicationDaoImpl();
+        return dao.read(id);
     }
 
     @Override

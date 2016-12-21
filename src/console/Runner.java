@@ -12,10 +12,6 @@ import console.menu.*;
 import domain.*;
 import service.*;
 
-
-
-
-
 public class Runner {
     
     static Connection conn=null;
@@ -26,8 +22,9 @@ public class Runner {
     
     public static void init() throws PersistentException, SQLException  {
 
-        
+        new AppInit().init();
         new ServiceRegistratorImpl();
+        
         /*
         ConnectionPool pool=new ConnectionPool();
         pool.init();   
@@ -92,18 +89,11 @@ public class Runner {
                     
            //??????????  login=0       
                     String login=new UserLoginMenu().getAnswer();
-                    
-                    //System.out.println("login="+login);
                     String password=new UserPasswordMenu().getAnswer();
+
                     
-                    //User user = service.findByLoginAndPassword(login,password);
                     User user=service.findByLoginAndPassword(login,password);
-                    
-                   //User user = service.findByLoginAndPassword(service.new UserLoginMenu().getAnswer()).getLogin()),service.findById((new UserPasswordMenu().getAnswer())).getPassword());
-                    
-                    //output.showList((new SelectTariff().getSelected(tarList.getTariffs(), new SubMenu1().getAnswer(),new SubMenu2().getAnswer())));
-                    System.out.println(user);
-                    System.out.println(user.toString());
+   
                     System.out.println(user.getFullName());
                     
                     break;

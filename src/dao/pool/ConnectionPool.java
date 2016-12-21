@@ -1,91 +1,121 @@
 package dao.pool;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.LinkedBlockingQueue;
+
 import org.apache.log4j.Logger;
+
 import exception.PersistentException;
 
-
 final public class ConnectionPool {
-    
-    private static Logger logger = Logger.getLogger(ConnectionPool.class);
-    
-    private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
-    private static Properties db_properties;
-    private static String db_url;;
-    private static String db_user;
-    private static String db_password;
-    
-    
-    //public static final String DB_URL = "jdbc:mysql://localhost:3306/periodicals?useUnicode=true&characterEncoding=UTF-8";
-    //public static final String DB_USER = "admin";
-    //public static final String DB_PASSWORD = "admin";
+	private static Logger logger = Logger.getLogger(ConnectionPool.class);
 
-    private BlockingQueue<Connection> connections = new LinkedBlockingQueue<Connection>();
+	private String url;
+	private String user;
+	private String password;
+	private int maxSize;
+	private int checkConnectionTimeout;
 
-    
-    public ConnectionPool() { }
-    
+	private BlockingQueue<PooledConnection> freeConnections = new LinkedBlockingQueue<>();
+	private Set<PooledConnection> usedConnections = new ConcurrentSkipListSet<>();
 
-    synchronized public Connection getConnection() throws PersistentException {
-        Connection connection = null;
-        while(connection == null) {
-            try {
-                if(connections.isEmpty()) {
-                    connection = DriverManager.getConnection(db_url, db_properties);
-                } else {
-                    connection = connections.take();
-                    if(!connection.isValid(0)) {
-                        connection = null;
-                    } // Вставить ограничение максимальных подключений
-                }
-            } catch(InterruptedException e) {
-                throw new PersistentException(e);
-            } catch(SQLException e) {
-                throw new PersistentException(e);
-            }
-        }
-        return connection;
-    }
+	private ConnectionPool() {}
 
-    public void freeConnection(Connection connection) {
-        try {
-            connections.put(connection);
-        } catch(InterruptedException e) {
-        }
-    }
 
-    public void init() throws PersistentException, SQLException {
-        
-        try {
-            
-            //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-            
-            Class.forName(DRIVER_CLASS);
-            
-            db_properties = new Properties();
-            db_properties.load(new FileInputStream("db.properties"));
-            db_user = db_properties.getProperty("user");
-            db_password = db_properties.getProperty("password");
-            db_url = db_properties.getProperty("url");
-            
-            
-        } catch(ClassNotFoundException | IOException e) {
-            throw new PersistentException(e);
-        }
-    }
+	
+	public synchronized Connection getConnection() throws PersistentException {
+		PooledConnection connection = null;
+		while(connection == null) {
+			try {
+				if(!freeConnections.isEmpty()) {
+					connection = freeConnections.take();
+					if(!connection.isValid(checkConnectionTimeout)) {
+						try {
+							connection.getConnection().close();
+						} catch(SQLException e) {}
+						connection = null;
+					}
+				} else if(usedConnections.size() < maxSize) {
+					connection = createConnection();
+				} else {
+					logger.error("The limit of number of database connections is exceeded");
+					throw new PersistentException();
+				}
+			} catch(InterruptedException | SQLException e) {
+				logger.error("It is impossible to connect to a database", e);
+				throw new PersistentException(e);
+			}
+		}
+		usedConnections.add(connection);
+		logger.debug(String.format("Connection was received from pool. Current pool size: %d used connections; %d free connection", usedConnections.size(), freeConnections.size()));
+		return connection;
+	}
 
-    
-    
-    private static ConnectionPool instance = new ConnectionPool();
-    
-    public static ConnectionPool getInstance() {
-        return instance;
-    }
+	
+	synchronized void freeConnection(PooledConnection connection) {
+		try {
+			if(connection.isValid(checkConnectionTimeout)) {
+				connection.clearWarnings();
+				connection.setAutoCommit(true);
+				usedConnections.remove(connection);
+				freeConnections.put(connection);
+				logger.debug(String.format("Connection was returned into pool. Current pool size: %d used connections; %d free connection", usedConnections.size(), freeConnections.size()));
+			}
+		} catch(SQLException | InterruptedException e1) {
+			logger.warn("It is impossible to return database connection into pool", e1);
+			try {
+				connection.getConnection().close();
+			} catch(SQLException e2) {}
+		}
+	}
+
+	public synchronized void init(String driverClass, String url, String user, String password, int startSize, int maxSize, int checkConnectionTimeout) throws PersistentException {
+		try {
+			destroy();
+			Class.forName(driverClass);
+			this.url = url;
+			this.user = user;
+			this.password = password;
+			this.maxSize = maxSize;
+			this.checkConnectionTimeout = checkConnectionTimeout;
+			for(int counter = 0; counter < startSize; counter++) {
+				freeConnections.put(createConnection());
+			}
+		} catch(ClassNotFoundException | SQLException | InterruptedException e) {
+			logger.fatal("It is impossible to initialize connection pool", e);
+			throw new PersistentException(e);
+		}
+	}
+
+	private static ConnectionPool instance = new ConnectionPool();
+
+	public static ConnectionPool getInstance() {
+		return instance;
+	}
+
+	private PooledConnection createConnection() throws SQLException {
+		return new PooledConnection(DriverManager.getConnection(url, user, password));
+	}
+
+	public synchronized void destroy() {
+		usedConnections.addAll(freeConnections);
+		freeConnections.clear();
+		for(PooledConnection connection : usedConnections) {
+			try {
+				connection.getConnection().close();
+			} catch(SQLException e) {}
+		}
+		usedConnections.clear();
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		destroy();
+	}
 }

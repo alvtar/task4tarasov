@@ -15,5 +15,5 @@ public interface UserService {
 
     void save(User user) throws PersistentException;
 
-    void delete(Integer identity) throws PersistentException;
+    void delete(Integer id) throws PersistentException;
 }

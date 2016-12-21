@@ -1,6 +1,5 @@
 package dao.mysql;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -146,6 +145,83 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
         }
     }
 
+    
+    
+    
+    @Override
+    public Subscription readByPublicationId(Integer publicationId) throws PersistentException {
+        String sql = "SELECT `id`, `regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` WHERE `publicationId` = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, publicationId);
+            resultSet = statement.executeQuery();
+            Subscription subscription = null;
+            if (resultSet.next()) {
+                subscription = new Subscription();
+                subscription.setId(resultSet.getInt("id"));
+                subscription.setRegDate(resultSet.getDate("regDate"));
+                subscription.setUserId(resultSet.getInt("userId"));
+                subscription.setPublicationId(resultSet.getInt("publicationId"));
+                subscription.setSubsYear(resultSet.getInt("subsYear"));
+                subscription.setSubsMonths(resultSet.getInt("subsMonths"));
+                subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
+            }
+            return subscription;
+        } catch (SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+        }
+    }
+    
+    
+    
+    @Override
+    public Subscription readByUserId(Integer userId) throws PersistentException {
+        String sql = "SELECT `id`, `regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` WHERE `userId` = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+            Subscription subscription = null;
+            if (resultSet.next()) {
+                subscription = new Subscription();
+                subscription.setId(resultSet.getInt("id"));
+                subscription.setRegDate(resultSet.getDate("regDate"));
+                subscription.setUserId(resultSet.getInt("userId"));
+                subscription.setPublicationId(resultSet.getInt("publicationId"));
+                subscription.setSubsYear(resultSet.getInt("subsYear"));
+                subscription.setSubsMonths(resultSet.getInt("subsMonths"));
+                subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
+            }
+            return subscription;
+        } catch (SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+        }
+    }
+    
+    
+    
     @Override
     public Subscription readBySubsYear(Integer subsYear) throws PersistentException {
         String sql = "SELECT `id`, `regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` WHERE `subYear` = ?";

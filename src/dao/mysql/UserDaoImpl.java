@@ -16,15 +16,30 @@ import exception.PersistentException;
 
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);
+    
 
+    public UserDaoImpl () {
+        Connection conn=null;
+        try {
+            conn = ConnectionPool.getInstance().getConnection();
+        } catch (PersistentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        setConnection(conn);
+    }
+    
+    
+    
+    
     @Override
     public Integer create(User user) throws PersistentException {
         String sql = "INSERT INTO `users` (`login`, `password`, `role`, `fullName`, `zipCode`, `address`) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        //ConnectionPool pool = ConnectionPool.getInstance();
+        //Connection connection = pool.getConnection();
         
         try {
             statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -61,8 +76,8 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     public User read(Integer id) throws PersistentException {
         String sql = "SELECT `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` WHERE `id` = ?";
         
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        //ConnectionPool pool = ConnectionPool.getInstance();
+        //Connection connection = pool.getConnection();
         
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -101,8 +116,8 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         String sql = "UPDATE `users` SET `login` = ?, `password` = ?, `role` = ?, `fullName`=?, `zipCode`=?, `address`=? WHERE `id` = ?";
         PreparedStatement statement = null;
         
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        //ConnectionPool pool = ConnectionPool.getInstance();
+        //Connection connection = pool.getConnection();
         
         try {
             statement = connection.prepareStatement(sql);
@@ -148,8 +163,8 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        //Connection pool = ConnectionPool().getConnection();
+        //Connection connection = pool.getConnection();
         
         try {
             statement = connection.prepareStatement(sql);
@@ -188,8 +203,8 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        //ConnectionPool pool = ConnectionPool.getInstance();
+        //Connection connection = pool.getConnection();
         
         try {
             statement = connection.prepareStatement(sql);
@@ -226,8 +241,11 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     
     @Override
     public boolean chechUnique(String login) throws PersistentException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        
+        //ConnectionPool pool = ConnectionPool.getInstance();
+        //Connection connection = pool.getConnection();
+        
+        
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -246,7 +264,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                 statement.close();
             } catch (Exception e) {
             }
-            pool.freeConnection(connection);
+////            pool.freeConnection(connection);
         }
     }
 }

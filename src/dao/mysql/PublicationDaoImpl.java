@@ -18,6 +18,21 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
 
     private static Logger logger = Logger.getLogger(PublicationDaoImpl.class);
 
+    
+    public PublicationDaoImpl () {
+        Connection conn=null;
+        try {
+            conn = ConnectionPool.getInstance().getConnection();
+        } catch (PersistentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        setConnection(conn);
+    }
+    
+    
+    
+    
     @Override
     public Integer create(Publication publication) throws PersistentException {
         String sql = "INSERT INTO `publications` (`issn`, `title`, `monthCost`, `active`, `lastUpdate`) VALUES (?, ?, ?, ?, ?)";
@@ -137,8 +152,8 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
     public List<Publication> read() throws PersistentException {
         String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` ORDER BY `id`";
         
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
+        //ConnectionPool pool = ConnectionPool.getInstance();
+        //Connection connection = pool.getConnection();
         
         PreparedStatement statement = null;
         ResultSet resultSet = null;
