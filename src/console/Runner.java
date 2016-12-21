@@ -1,122 +1,120 @@
 package console;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import exception.PersistentException;
 import console.menu.*;
+import dao.mysql.UserDaoImpl;
 import domain.*;
 import service.*;
 
 public class Runner {
-    
-    static Connection conn=null;
+
+    private static Logger logger = Logger.getLogger(Runner.class);
+
+    static Connection conn = null;
     static Statement st = null;
     static PreparedStatement prSt = null;
     static ResultSet res = null;
-    
-    
-    public static void init() throws PersistentException, SQLException  {
 
+    public static void init() throws PersistentException, SQLException {
         new AppInit().init();
         new ServiceRegistratorImpl();
-        
-        /*
-        ConnectionPool pool=new ConnectionPool();
-        pool.init();   
-        ServiceLocator locator = new ServiceLocator();
-    
-        UserService user=new UserServiceImpl();
-        locator.registerService(UserService.class,user);
-        
-        PublicationService publication=new PublicationServiceImpl();
-        locator.registerService(PublicationService.class, publication);
-        
-        SubscriptionService subscription=new SubscriptionServiceImpl();
-        locator.registerService(SubscriptionService.class, subscription);
-        
-        ServiceLocator.setLocator(locator);*/
-        
     }
-    
-    
-    
-    
+
     public static void main(String[] args) throws PersistentException, SQLException {
-        int role;
+        int userId=0;
+        String role="";
         
         init();
         
-        try {
-   /*             // 0. Read the properties
-                Properties prop = new Properties();
-                prop.load(new FileInputStream("db.properties"));
-                
-                String db_user = prop.getProperty("user");
-                String db_pw = prop.getProperty("password");
-                String db_url = prop.getProperty("url");
+       // try {
 
-                System.out.println("Connecting to database...");
-                System.out.println("Database URL: " + db_url);
-                System.out.println("User: " + db_user);
-
-                // 1. Get a connection to database
-                conn = DriverManager.getConnection(db_url,prop);
-                //conn = DriverManager.getConnection(db_url, db_user, db_password);
-
-                
-    */
-              
-            
-            //User user=new UserServiceImpl().findById(1);
-
-            //UserService service = ServiceLocator.getService(UserService.class);
-            //List<User> users = service.findAll();
-            
             MenuGenerator menu =new MainMenu();
             
             while (true) {
+                
+                switch (role) {
+                case "": {            // Not logged yet
 
-                switch (menu.getAnswer()) {
-                case "1": {
-                   // System.out.println("Clients="+ new CountSumClients().countSum(tarList.getTariffs()));
-                    UserService service = ServiceLocator.getService(UserService.class);
-                    //MenuGenerator = new 
+                    switch (menu.getAnswer()) {
+                    case "1": {
+                        UserService service = ServiceLocator.getService(UserService.class); 
                     
-           //??????????  login=0       
-                    String login=new UserLoginMenu().getAnswer();
-                    String password=new UserPasswordMenu().getAnswer();
-
+                        String login=new UserLoginMenu().getAnswer();
+                        String password=new UserPasswordMenu().getAnswer();
                     
-                    User user=service.findByLoginAndPassword(login,password);
-   
-                    System.out.println(user.getFullName());
+                        User user=service.findByLoginAndPassword(login,password);
                     
-                    break;
-                }
-                case "2": {
-                    //output.showList(new SortByFee().getSorted(tarList.getTariffs()));
-                    break;
-                }
+                        if (user!=null) {
+                            System.out.println(user.getFullName());
+                            userId=user.getId();
+                            role=user.getRole().getName();
+                        } else {
+                            System.out.println("Неверное имя пользователя или пароль!");
+                            logger.error("Incorrect login or password!");
+                        }
+                        break;
+                    } 
+                    case "2": {
+                        UserService service = ServiceLocator.getService(UserService.class); 
+                        
+                        User user=new User();
+                        
+                        user.setLogin(new UserRegisterLoginMenu().getAnswer());
+                        user.setPassword(new UserRegisterPasswordMenu().getAnswer());
+                        user.setRole(Role.getById(1)); // New User Role="READER";
+                        user.setFullName(new UserRegisterFullNameMenu().getAnswer());
+                        
+                        user.setZipCode(Integer.parseInt((new UserRegisterZipCodeMenu().getAnswer())));
+                        
+                        // TODO: АДРЕС(?) НЕ ВСТАВЛЯЕТСЯ С ЗАПЯТЫМИ!!!!!!!!!!!!
+                        user.setAddress(new UserRegisterAddressMenu().getAnswer());
+                        service.save(user);
+                    
 
-                case "3": {
-
-               ///     ServiceLocator.getService(UserService.class).findAll();
-                    PublicationService service = ServiceLocator.getService(PublicationService.class);
-                    List<Publication> publications = service.findAll();
-                    System.out.println(publications.toString());
-      
-                    break;
+           /*             if (user!=null) {
+                            System.out.println(user.getFullName());
+                            userId=user.getId();
+                            role=user.getRole().getName();
+                        } else {
+                            System.out.println("Неверное имя пользователя или пароль!");
+                            logger.error("Incorrect login or password!");
+                        }  */
+                        break;
+                    }
+                    case "3": {
+                        PublicationService service = ServiceLocator.getService(PublicationService.class);
+                        List<Publication> publications = service.findAll();
+                        System.out.println(publications.toString());
+                    
+                        break;
+                    }
+                
+                    case "4": {
+                        System.out.println("Всего доброго!");
+                        //System.exit(0);
+                        return;
+                    }
+                
+                    }
+                    
+                break;
                 }
                 
-                case "4": return;
-                }
-            
-            
+                case "ADMINISTRATOR": {
+                    System.out.println("ВОШЕЛ АДМИНИСТРАТОР!");
+                }      
+                    
+                    
+            }
             
             
             //System.out.println(user);
@@ -168,9 +166,9 @@ public class Runner {
                 System.out.println("\nReuse the prepared statement:  role = 1 (customer).\nList of users with the role = 'customer':");
                 display(res);
 */
-        }} catch (Exception exc) {
-                exc.printStackTrace();
-        } finally {
+   //     }} catch (Exception exc) {
+   //             exc.printStackTrace();
+  //      } finally {
                 if (res != null) {
                         res.close();
                 }
@@ -186,19 +184,24 @@ public class Runner {
                 if (conn != null) {
                         conn.close();
                 }
-        }
-}
+     // /  
+            
+            }
+    }
 
-private static void display(ResultSet myRs) throws SQLException {
+    
+    
+    
+    private static void display(ResultSet myRs) throws SQLException {
         System.out.println("----------------------------");
         System.out.println("login\t password\trole");
         System.out.println("----------------------------");
 
         while (myRs.next()) {
-                String login = myRs.getString("login");
-                String password = myRs.getString("password");
-                Integer role = myRs.getInt("role");
-                System.out.printf("%s \t %s \t\t %d\n", login, password, role);
+            String login = myRs.getString("login");
+            String password = myRs.getString("password");
+            Integer role = myRs.getInt("role");
+            System.out.printf("%s \t %s \t\t %d\n", login, password, role);
         }
 
         System.out.println("----------------------------");

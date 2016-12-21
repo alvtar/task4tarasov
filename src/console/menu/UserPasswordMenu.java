@@ -11,7 +11,7 @@ public class UserPasswordMenu extends MenuGeneratorImpl {
         lst.add("");
         lst.add("МЕНЮ ВХОДА В СИСТЕМУ");
         lst.add("Введите пароль");
-        lst.add("----- ?: ");
+        lst.add(">: \n");
         
         return generate(lst);
     }

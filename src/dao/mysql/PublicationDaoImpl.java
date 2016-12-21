@@ -148,44 +148,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
 
    
 
-    @Override
-    public List<Publication> read() throws PersistentException {
-        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` ORDER BY `id`";
-        
-        //ConnectionPool pool = ConnectionPool.getInstance();
-        //Connection connection = pool.getConnection();
-        
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            statement = connection.prepareStatement(sql);
-            resultSet = statement.executeQuery();
-            List<Publication> publications = new ArrayList<>();
-            Publication publication = null;
-            while (resultSet.next()) {
-                publication = new Publication();
-                publication.setId(resultSet.getInt("id"));
-                publication.setIssn(resultSet.getInt("issn"));
-                publication.setTitle(resultSet.getString("title"));
-                publication.setMonthCost(resultSet.getFloat("monthCost"));
-                publication.setActive(resultSet.getBoolean("active"));
-                publication.setLastUpdate(resultSet.getDate("lastUpdate"));
-                publications.add(publication);
-            }
-            return publications;
-        } catch (SQLException e) {
-            throw new PersistentException(e);
-        } finally {
-            try {
-                resultSet.close();
-            } catch (SQLException | NullPointerException e) {
-            }
-            try {
-                statement.close();
-            } catch (SQLException | NullPointerException e) {
-            }
-        }
-    }
+   
 
 
 
@@ -222,5 +185,79 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             }
         }
     }
+    
+    
+    @Override
+    public List<Publication> readByTitleLike(String titleLike) throws PersistentException {
+        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `title` LIKE ?";
+        
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, titleLike);
+            resultSet = statement.executeQuery();
+            List<Publication> publications = new ArrayList<>();
+            Publication publication = null;
+            while (resultSet.next()) {
+                publication = new Publication();
+                publication.setId(resultSet.getInt("id"));
+                publication.setIssn(resultSet.getInt("issn"));
+                publication.setTitle(resultSet.getString("title"));
+                publication.setMonthCost(resultSet.getFloat("monthCost"));
+                publication.setActive(resultSet.getBoolean("active"));
+                publication.setLastUpdate(resultSet.getDate("lastUpdate"));
+                publications.add(publication);
+            }
+            return publications;
+        } catch (SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+        }
+    }
+    
+    
+    @Override
+    public List<Publication> read() throws PersistentException {
+        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` ORDER BY `id`";
 
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            List<Publication> publications = new ArrayList<>();
+            Publication publication = null;
+            while (resultSet.next()) {
+                publication = new Publication();
+                publication.setId(resultSet.getInt("id"));
+                publication.setIssn(resultSet.getInt("issn"));
+                publication.setTitle(resultSet.getString("title"));
+                publication.setMonthCost(resultSet.getFloat("monthCost"));
+                publication.setActive(resultSet.getBoolean("active"));
+                publication.setLastUpdate(resultSet.getDate("lastUpdate"));
+                publications.add(publication);
+            }
+            return publications;
+        } catch (SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+        }
+    }
 }

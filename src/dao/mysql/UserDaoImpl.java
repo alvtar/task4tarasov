@@ -47,7 +47,9 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             statement.setString(2, user.getPassword());
             statement.setInt(3, user.getRole().getId());
             statement.setString(4, user.getFullName());
+            
             statement.setInt(5, user.getZipCode());
+            
             statement.setString(6, user.getAddress());
 
             statement.executeUpdate();
@@ -158,7 +160,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByLoginAndPassword(String login, String password) throws PersistentException {
+    public User readByLoginAndPassword(String login, String password) throws PersistentException {
         String sql = "SELECT `id`, `login`, `password`, `role`, `fullName`, `zipCode`, `address` FROM `users` WHERE `login` = ? AND `password` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;

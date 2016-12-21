@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByLoginAndPassword(String login, String password) throws PersistentException {
         UserDao dao = new UserDaoImpl();
-        return dao.findByLoginAndPassword(login, password);
+        return dao.readByLoginAndPassword(login, password);
     }
 
     @Override
