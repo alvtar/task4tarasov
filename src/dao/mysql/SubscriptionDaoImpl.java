@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.log4j.Logger;
-
 import dao.SubscriptionDao;
 import domain.Subscription;
 import exception.PersistentException;
@@ -18,6 +16,17 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
 
     private static Logger logger = Logger.getLogger(SubscriptionDaoImpl.class);
 
+    
+    /*public SubscriptionDaoImpl () {
+        Connection conn=null;
+        try {
+            conn = ConnectionPool.getInstance().getConnection();
+        } catch (PersistentException e) {
+        }
+        setConnection(conn);
+    }*/
+    
+    
     @Override
     public Integer create(Subscription subscription) throws PersistentException {
         String sql = "INSERT INTO `subscriptions` (`regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum`) VALUES (?, ?, ?, ?, ?, ?)";
@@ -47,7 +56,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
                 logger.error("There is no autoincremented index after trying to add record into table `subscriptions`");
                 throw new PersistentException();
             }
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -56,6 +65,10 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -90,7 +103,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
                 subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
             }
             return subscription;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -99,6 +112,10 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -117,11 +134,15 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             statement.setFloat(5, subscription.getPaymentSum());
             statement.setInt(7, subscription.getId());
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -135,11 +156,15 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -169,7 +194,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
                 subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
             }
             return subscription;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -178,6 +203,10 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -206,7 +235,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
                 subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
             }
             return subscription;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -215,6 +244,10 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -243,7 +276,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
                 subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
             }
             return subscription;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -252,6 +285,10 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -279,7 +316,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
                 subscriptions.add(subscription);
             }
             return subscriptions;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -288,6 +325,10 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }

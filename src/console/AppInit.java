@@ -50,7 +50,7 @@ public class AppInit {
                 
                 ConnectionPool.getInstance().init(DB_DRIVER_CLASS, DB_URL, DB_USER, DB_PASSWORD, DB_POOL_START_SIZE, DB_POOL_MAX_SIZE, DB_POOL_CHECK_CONNECTION_TIMEOUT);
         } catch(PersistentException | IOException e) {
-                logger.error("It is impossible to initialize application", e);
+                logger.fatal("It is impossible to initialize application", e);
                
         }
 }

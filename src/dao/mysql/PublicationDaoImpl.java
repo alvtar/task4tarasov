@@ -1,6 +1,5 @@
 package dao.mysql;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,29 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import dao.PublicationDao;
-import dao.pool.ConnectionPool;
 import domain.Publication;
 import exception.PersistentException;
 
-
-public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
+public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
 
     private static Logger logger = Logger.getLogger(PublicationDaoImpl.class);
 
-    
-    public PublicationDaoImpl () {
-        Connection conn=null;
+
+    /*public PublicationDaoImpl() {
+        Connection conn = null;
         try {
             conn = ConnectionPool.getInstance().getConnection();
         } catch (PersistentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
         setConnection(conn);
-    }
-    
-    
-    
+    }*/
+
     
     @Override
     public Integer create(Publication publication) throws PersistentException {
@@ -44,7 +37,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             statement.setString(2, publication.getTitle());
             statement.setFloat(3, publication.getMonthCost());
             statement.setBoolean(4, publication.getActive());
-            
+
             // ?????????????????? auto set
             statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
 
@@ -56,7 +49,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
                 logger.error("There is no autoincremented index after trying to add record into table `publications`");
                 throw new PersistentException();
             }
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -65,6 +58,10 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -82,7 +79,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             Publication publication = null;
             if (resultSet.next()) {
                 publication = new Publication();
-                ////publication.setId(id);
+                //// publication.setId(id);
                 publication.setIssn(resultSet.getInt("issn"));
                 publication.setTitle(resultSet.getString("title"));
                 publication.setMonthCost(resultSet.getFloat("monthCost"));
@@ -90,7 +87,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
                 publication.setLastUpdate(resultSet.getDate("lastUpdate"));
             }
             return publication;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -99,6 +96,10 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -118,11 +119,15 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
             statement.setInt(1, publication.getId());
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
@@ -136,21 +141,19 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
                 statement.close();
             } catch (SQLException | NullPointerException e) {
             }
+            try {
+                connection.close();
+            } catch (SQLException | NullPointerException e) {
+            }
         }
     }
-
-   
-
-   
-
-
 
     @Override
     public Publication readByIssn(Integer issn) throws PersistentException {
@@ -164,7 +167,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             Publication publication = null;
             if (resultSet.next()) {
                 publication = new Publication();
-                ///publication.setId(id);
+                /// publication.setId(id);
                 publication.setIssn(resultSet.getInt("issn"));
                 publication.setTitle(resultSet.getString("title"));
                 publication.setMonthCost(resultSet.getFloat("monthCost"));
@@ -172,7 +175,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
                 publication.setLastUpdate(resultSet.getDate("lastUpdate"));
             }
             return publication;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -183,14 +186,17 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
                 statement.close();
             } catch (SQLException | NullPointerException e) {
             }
+            try {
+                connection.close();
+            } catch (SQLException | NullPointerException e) {
+            }
         }
     }
-    
-    
+
     @Override
     public List<Publication> readByTitleLike(String titleLike) throws PersistentException {
         String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `title` LIKE ?";
-        
+
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -207,10 +213,10 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
                 publication.setMonthCost(resultSet.getFloat("monthCost"));
                 publication.setActive(resultSet.getBoolean("active"));
                 publication.setLastUpdate(resultSet.getDate("lastUpdate"));
-                publications.add(publication);
+                publications.add(publication); 
             }
             return publications;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -221,10 +227,13 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
                 statement.close();
             } catch (SQLException | NullPointerException e) {
             }
+            try {
+                connection.close();
+            } catch (SQLException | NullPointerException e) {
+            }
         }
     }
-    
-    
+
     @Override
     public List<Publication> read() throws PersistentException {
         String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` ORDER BY `id`";
@@ -247,7 +256,7 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
                 publications.add(publication);
             }
             return publications;
-        } catch (SQLException e) {
+        } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -256,6 +265,10 @@ public class PublicationDaoImpl  extends BaseDaoImpl implements PublicationDao {
             }
             try {
                 statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                connection.close();
             } catch (SQLException | NullPointerException e) {
             }
         }
