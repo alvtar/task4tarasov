@@ -43,7 +43,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             
             statement.setInt(5, user.getZipCode());
             
-            statement.setString(6, user.getAddress());
+            statement.setString(6, "'"+user.getAddress()+"'");
 
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();

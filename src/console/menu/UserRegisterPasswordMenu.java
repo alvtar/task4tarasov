@@ -10,8 +10,8 @@ public class UserRegisterPasswordMenu extends MenuGeneratorImpl{
         
         lst.add("");
         lst.add("МЕНЮ РЕГИСТРАЦИИ НОВОГО ПОЛЬЗОВАТЕЛЯ");
-        lst.add("Введите пароль нового пользователя");
-        lst.add(">: \n");
+        lst.add("Введите пароль нового пользователя:");
+        lst.add("> ");
         
         return generate(lst);
     }

@@ -17,10 +17,14 @@ public abstract class MenuGeneratorImpl implements MenuGenerator {
         @SuppressWarnings("resource")
         Scanner in=new Scanner(System.in);
         if (in.hasNext()) { 
-            //System.out.println(in);
-                return in.next();
+            String temp=in.nextLine();
+            //System.out.println(temp);
+               // return in.next();
+            return temp;
         } else return "";
     }
+    
+    
     @Override
     public abstract String getAnswer(); 
     

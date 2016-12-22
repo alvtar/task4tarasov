@@ -14,7 +14,7 @@ public class MainMenu extends MenuGeneratorImpl{
         lst.add("2 - Регистрация пользователя;");
         lst.add("3 - Вывод списка изданий;");
         lst.add("4 - Выход.");
-        lst.add(">: \n");
+        lst.add("> ");
         
         return generate(lst);
     }

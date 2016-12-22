@@ -6,14 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-
 import org.apache.log4j.Logger;
-
 import exception.PersistentException;
 import console.menu.*;
 import dao.mysql.UserDaoImpl;
+import dao.pool.ConnectionPool;
 import domain.*;
 import service.*;
+
 
 public class Runner {
 
@@ -24,11 +24,15 @@ public class Runner {
     static PreparedStatement prSt = null;
     static ResultSet res = null;
 
+    
+    
     public static void init() throws PersistentException, SQLException {
         new AppInit().init();
         new ServiceRegistratorImpl();
     }
 
+    
+    
     public static void main(String[] args) throws PersistentException, SQLException {
         int userId=0;
         String role="";
@@ -45,7 +49,7 @@ public class Runner {
                 case "": {            // Not logged yet
 
                     switch (menu.getAnswer()) {
-                    case "1": {
+                    case "1": { // Login
                         UserService service = ServiceLocator.getService(UserService.class); 
                     
                         String login=new UserLoginMenu().getAnswer();
@@ -63,7 +67,7 @@ public class Runner {
                         }
                         break;
                     } 
-                    case "2": {
+                    case "2": { // User registration
                         UserService service = ServiceLocator.getService(UserService.class); 
                         
                         User user=new User();
@@ -73,12 +77,25 @@ public class Runner {
                         user.setRole(Role.getById(1)); // New User Role="READER";
                         user.setFullName(new UserRegisterFullNameMenu().getAnswer());
                         
-                        user.setZipCode(Integer.parseInt((new UserRegisterZipCodeMenu().getAnswer())));
+                        String temp;
+                        do {
+                            temp=new UserRegisterZipCodeMenu().getAnswer();  
+                        }   
+                        while (!temp.matches("^\\d{6}$"));
+                        user.setZipCode(Integer.parseInt((temp)));
+                        
+                        
                         
                         // TODO: АДРЕС(?) НЕ ВСТАВЛЯЕТСЯ С ЗАПЯТЫМИ!!!!!!!!!!!!
-                        user.setAddress(new UserRegisterAddressMenu().getAnswer());
+                        temp=new UserRegisterAddressMenu().getAnswer();
+                        System.out.println(temp);  
+                        
+                        user.setAddress(temp);
                         service.save(user);
-                    
+                        userId=user.getId(); //// +++
+                        role="SUBSCRIBER";
+                        
+                        //System.out.println(userId);  
 
            /*             if (user!=null) {
                             System.out.println(user.getFullName());
@@ -90,7 +107,7 @@ public class Runner {
                         }  */
                         break;
                     }
-                    case "3": {
+                    case "3": { // List of publications
                         PublicationService service = ServiceLocator.getService(PublicationService.class);
                         List<Publication> publications = service.findAll();
                         System.out.println(publications.toString());
@@ -98,9 +115,10 @@ public class Runner {
                         break;
                     }
                 
-                    case "4": {
+                    case "4": { // Exit
+                        ConnectionPool.getInstance().destroy();
                         System.out.println("Всего доброго!");
-                        //System.exit(0);
+                        System.exit(0);
                         return;
                     }
                 

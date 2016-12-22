@@ -10,8 +10,8 @@ public class UserRegisterZipCodeMenu  extends MenuGeneratorImpl {
         
         lst.add("");
         lst.add("МЕНЮ РЕГИСТРАЦИИ НОВОГО ПОЛЬЗОВАТЕЛЯ");
-        lst.add("Введите почтовый индекс нового пользователя");
-        lst.add(">: \n");
+        lst.add("Введите 6 цифр почтового индекса:");
+        lst.add("> ");
         
         return generate(lst);
     }

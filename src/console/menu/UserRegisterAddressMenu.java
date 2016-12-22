@@ -10,8 +10,8 @@ public class UserRegisterAddressMenu  extends MenuGeneratorImpl {
         
         lst.add("");
         lst.add("МЕНЮ РЕГИСТРАЦИИ НОВОГО ПОЛЬЗОВАТЕЛЯ");
-        lst.add("Введите адрес нового пользователя");
-        lst.add(">: \n");
+        lst.add("Введите адрес нового пользователя:");
+        lst.add("> ");
         
         return generate(lst);
     }

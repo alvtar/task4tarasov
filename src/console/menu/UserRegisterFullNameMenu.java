@@ -10,8 +10,8 @@ public class UserRegisterFullNameMenu  extends MenuGeneratorImpl{
         
         lst.add("");
         lst.add("МЕНЮ РЕГИСТРАЦИИ НОВОГО ПОЛЬЗОВАТЕЛЯ");
-        lst.add("Введите Ф.И.О. пользователя");
-        lst.add(">: \n");
+        lst.add("Введите Ф.И.О. пользователя:");
+        lst.add("> ");
         
         return generate(lst);
     }
