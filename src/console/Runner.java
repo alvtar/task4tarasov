@@ -52,15 +52,17 @@ public class Runner {
                     case "1": { // Login
                         UserService service = ServiceLocator.getService(UserService.class); 
                     
-                        String login=new UserLoginMenu().getAnswer();
-                        String password=new UserPasswordMenu().getAnswer();
+                        String login=new EnterLoginMenu().getAnswer();
+                        String password=new EnterPasswordMenu().getAnswer();
                     
                         User user=service.findByLoginAndPassword(login,password);
                     
                         if (user!=null) {
                             System.out.println(user.getFullName());
                             userId=user.getId();
-                            role=user.getRole().getName();
+                            //role=user.getRole().getName();
+                            role=user.getRole().name();
+                            System.out.println(role);
                         } else {
                             System.out.println("Неверное имя пользователя или пароль!");
                             logger.error("Incorrect login or password!");
@@ -83,10 +85,7 @@ public class Runner {
                         }   
                         while (!temp.matches("^\\d{6}$"));
                         user.setZipCode(Integer.parseInt((temp)));
-                        
-                        
-                        
-                        // TODO: АДРЕС(?) НЕ ВСТАВЛЯЕТСЯ С ЗАПЯТЫМИ!!!!!!!!!!!!
+
                         temp=new UserRegisterAddressMenu().getAnswer();
                         System.out.println(temp);  
                         
@@ -127,8 +126,112 @@ public class Runner {
                 break;
                 }
                 
+                case "SUBSCRIBER": {
+                    //System.out.println("ВОШЕЛ ПОЛЬЗОВАТЕЛЬ!");
+                    MenuGenerator userMenu =new UserMenu();
+                    
+                    switch (userMenu.getAnswer()) {
+                    
+                    case "1": { // Find publication by index
+                        PublicationService service = ServiceLocator.getService(PublicationService.class);
+                        
+                        String temp;
+                        do {
+                            temp=new UserMenuGetIndex().getAnswer();  
+                        }   
+                        while (!temp.matches("^\\d{3,5}$"));
+                        
+                        Publication publication = service.findByIssn(Integer.parseInt(temp));
+                        if (publication!=null) System.out.println(publication.toString());
+                        else System.out.println("/n Издание не найдено!");
+                    
+                        break;
+                    }
+                    
+                    case "2": { // Find publications by title
+                        PublicationService service = ServiceLocator.getService(PublicationService.class);
+                        
+                        List<Publication> publications = service.findByTitleLike("%"+new UserMenuGetTitle().getAnswer()+"%");
+                        if (publications!=null) System.out.println(publications.toString());
+                        else System.out.println("/n Издания не найдены!");
+                    
+                        break;
+                    }
+                    
+                    case "3": { // List of publications
+                        PublicationService service = ServiceLocator.getService(PublicationService.class);
+                        List<Publication> publications = service.findAll();
+                        System.out.println(publications.toString());
+                    
+                        break;
+                    }
+                    
+                    case "4": { // List of subscriptions
+                        SubscriptionService service = ServiceLocator.getService(SubscriptionService.class);
+                        List<Subscription> subscriptions = service.findByUserId(userId);
+                        
+                        if (subscriptions!=null) System.out.println(subscriptions.toString());
+                        else System.out.println("/n Подписки не найдены!");
+                        break;
+                    }
+                    
+                    case "5": { // Subscribe
+                        PublicationService service = ServiceLocator.getService(PublicationService.class);
+                        
+                        Subscription subscription=new Subscription();
+                        
+                        String temp;
+                        do {
+                            temp=new UserMenuGetIndex().getAnswer();  
+                        }   
+                        while (!temp.matches("^\\d{3,5}$"));
+                        
+                        Publication publication = service.findByIssn(Integer.parseInt(temp));
+                        if (publication!=null) System.out.println(publication.toString());
+                        else {
+                            System.out.println("/n Издание не найдено!");
+                            break;
+                        }
+                        
+                        subscription.setUserId(userId);   
+                        subscription.setPublicationId(publication.getId());
+                        
+                        subscription.setSubsYear(new UserRegisterPasswordMenu().getAnswer());
+                        subscription.setRole(Role.getById(1)); // New User Role="READER";
+                        subscription.setFullName(new UserRegisterFullNameMenu().getAnswer());
+                        
+                        service.save(user);
+                        
+                        
+                        String temp;
+                        do {
+                            temp=new UserMenuGetIndex().getAnswer();  
+                        }   
+                        while (!temp.matches("^\\d{3,5}$"));
+                        
+                        Publication publication = service.save(publication);
+                        if (publication!=null) System.out.println(publication.toString());
+                        else System.out.println("/n Издание не найдено!");
+                    
+                        break;
+                    }
+                    
+                    case "6": { // Exit
+                        role="";
+                        break;
+                    }
+                    
+                    
+                    }
+                    
+                break;
+                } 
+                
                 case "ADMINISTRATOR": {
                     System.out.println("ВОШЕЛ АДМИНИСТРАТОР!");
+                    
+                    role="";
+                break;
                 }      
                     
                     

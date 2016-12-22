@@ -22,7 +22,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription findByUserId(Integer userId) throws PersistentException {
+    public List<Subscription> findByUserId(Integer userId) throws PersistentException {
         SubscriptionDao dao = new SubscriptionDaoImpl();
         return dao.readByUserId(userId);
     }

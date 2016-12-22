@@ -12,7 +12,7 @@ public class MainMenu extends MenuGeneratorImpl{
         lst.add("Сделайте свой выбор:");
         lst.add("1 - Вход в систему;");
         lst.add("2 - Регистрация пользователя;");
-        lst.add("3 - Вывод списка изданий;");
+        lst.add("3 - Вывод полного списка изданий;");
         lst.add("4 - Выход.");
         lst.add("> ");
         

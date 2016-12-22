@@ -26,6 +26,12 @@ public class PublicationServiceImpl implements PublicationService {
         PublicationDao dao = new PublicationDaoImpl();
         return dao.readByIssn(issn);
     }
+    
+    @Override
+    public List<Publication> findByTitleLike(String titleДшлу) throws PersistentException {
+        PublicationDao dao = new PublicationDaoImpl();
+        return dao.readByTitleLike(titleДшлу);
+    }
 
     @Override
     public void save(Publication publication) throws PersistentException {

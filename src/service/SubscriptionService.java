@@ -10,7 +10,7 @@ public interface SubscriptionService {
 
     Subscription findById(Integer id) throws PersistentException;
 
-    Subscription findByUserId(Integer userId) throws PersistentException;
+    List<Subscription> findByUserId(Integer userId) throws PersistentException;
     
     Subscription findByPublicationId(Integer publicationId) throws PersistentException;
     

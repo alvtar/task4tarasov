@@ -215,7 +215,7 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
     
     
     @Override
-    public Subscription readByUserId(Integer userId) throws PersistentException {
+    public List<Subscription> readByUserId(Integer userId) throws PersistentException {
         String sql = "SELECT `id`, `regDate`, `userId`, `publicationId`, `subsYear`, `subsMonths`, `paymentSum` FROM `subscriptions` WHERE `userId` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -223,8 +223,9 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
             statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
             resultSet = statement.executeQuery();
+            List<Subscription> subscriptions = new ArrayList<>();
             Subscription subscription = null;
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 subscription = new Subscription();
                 subscription.setId(resultSet.getInt("id"));
                 subscription.setRegDate(resultSet.getDate("regDate"));
@@ -233,8 +234,9 @@ public class SubscriptionDaoImpl extends BaseDaoImpl implements SubscriptionDao 
                 subscription.setSubsYear(resultSet.getInt("subsYear"));
                 subscription.setSubsMonths(resultSet.getInt("subsMonths"));
                 subscription.setPaymentSum(resultSet.getFloat("paymentSum"));
+                subscriptions.add(subscription);
             }
-            return subscription;
+            return subscriptions;
         } catch (SQLException  | NullPointerException e) {
             throw new PersistentException(e);
         } finally {

@@ -12,6 +12,8 @@ public interface PublicationService {
     Publication findById(Integer id) throws PersistentException;
 
     Publication findByIssn(Integer issn) throws PersistentException;
+    
+    List<Publication> findByTitleLike(String titleДшлу) throws PersistentException;
 
     void save(Publication publication) throws PersistentException;
 
