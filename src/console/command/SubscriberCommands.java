@@ -39,7 +39,7 @@ public class SubscriberCommands extends Command {
             if (publication != null)
                 System.out.println(publication.toString());
             else
-                System.out.println("/n Издание не найдено!");
+                System.out.println("Издание не найдено!");
             break;
         }
 
@@ -49,7 +49,7 @@ public class SubscriberCommands extends Command {
             if (publications != null)
                 System.out.println(publications.toString());
             else
-                System.out.println("/n Издания не найдены!");
+                System.out.println("Издания не найдены!");
             break;
         }
 

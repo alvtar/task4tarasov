@@ -1,7 +1,6 @@
 package service;
 
 import java.sql.SQLException;
-
 import exception.PersistentException;
 
 public interface ServiceRegistrator {

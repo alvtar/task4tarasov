@@ -14,11 +14,12 @@ public class AdminCommands extends Command {
 
     public static final AdminCommands INSTANCE = new AdminCommands();
 
+    
     public void run() throws PersistentException {
-        MenuGenerator userMenu = new AdminMenu();
+        MenuGenerator adminMenu = new AdminMenu();
         String temp = "";
 
-        switch (userMenu.getAnswer()) {
+        switch (adminMenu.getAnswer()) {
         case "1": { // Find publication by index
             PublicationService service = ServiceLocator.getService(PublicationService.class);
 
@@ -30,7 +31,7 @@ public class AdminCommands extends Command {
             if (publication != null)
                 System.out.println(publication.toString());
             else
-                System.out.println("/n Издание не найдено!");
+                System.out.println("Издание не найдено!");
             break;
         }
 
@@ -40,7 +41,7 @@ public class AdminCommands extends Command {
             if (publications != null)
                 System.out.println(publications.toString());
             else
-                System.out.println("/n Издания не найдены!");
+                System.out.println("Издания не найдены!");
             break;
         }
 
@@ -57,7 +58,7 @@ public class AdminCommands extends Command {
             if (subscriptions != null)
                 System.out.println(subscriptions.toString());
             else
-                System.out.println("/n Подписки не найдены!");
+                System.out.println("Подписки не найдены!");
             break;
         }
 
