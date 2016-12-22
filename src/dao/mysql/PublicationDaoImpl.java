@@ -69,7 +69,7 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
 
     @Override
     public Publication read(Integer id) throws PersistentException {
-        String sql = "SELECT `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publication` WHERE `id` = ?";
+        String sql = "SELECT `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `id` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {

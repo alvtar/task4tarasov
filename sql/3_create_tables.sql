@@ -42,7 +42,7 @@ CREATE TABLE `subscriptions` (
     `userId` INTEGER NOT NULL,
     `publicationId` INTEGER NOT NULL,
     `subsYear` INTEGER NOT NULL,
-    `subsMonths` TINYINT NOT NULL,
+    `subsMonths` INTEGER NOT NULL,
     `paymentSum` FLOAT unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8;
 
