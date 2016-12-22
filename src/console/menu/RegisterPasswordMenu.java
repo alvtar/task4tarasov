@@ -2,7 +2,7 @@ package console.menu;
 
 import java.util.ArrayList;
 
-public class UserRegisterPasswordMenu extends MenuGeneratorImpl{
+public class RegisterPasswordMenu extends MenuGeneratorImpl{
 
     @Override
     public String getAnswer() {

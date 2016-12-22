@@ -8,7 +8,9 @@ import java.sql.Statement;
 import java.util.List;
 import org.apache.log4j.Logger;
 import exception.PersistentException;
+import console.command.SubscriberCommands;
 import console.menu.*;
+import console.command.*;
 import dao.mysql.UserDaoImpl;
 import dao.pool.ConnectionPool;
 import domain.*;
@@ -34,8 +36,7 @@ public class Runner {
     
     
     public static void main(String[] args) throws PersistentException, SQLException {
-        int userId=0;
-        String role="";
+
         
         init();
         
@@ -45,7 +46,7 @@ public class Runner {
             
             while (true) {
                 
-                switch (role) {
+                switch (AppState.getCurrentRole()) {
                 case "": {            // Not logged yet
 
                     switch (menu.getAnswer()) {
@@ -59,10 +60,10 @@ public class Runner {
                     
                         if (user!=null) {
                             System.out.println(user.getFullName());
-                            userId=user.getId();
+                            AppState.setCurrentUserId(user.getId());
                             //role=user.getRole().getName();
-                            role=user.getRole().name();
-                            System.out.println(role);
+                            AppState.setCurrentRole(user.getRole().name());
+                            ///System.out.println(role);
                         } else {
                             System.out.println("Неверное имя пользователя или пароль!");
                             logger.error("Incorrect login or password!");
@@ -74,25 +75,25 @@ public class Runner {
                         
                         User user=new User();
                         
-                        user.setLogin(new UserRegisterLoginMenu().getAnswer());
-                        user.setPassword(new UserRegisterPasswordMenu().getAnswer());
+                        user.setLogin(new RegisterLoginMenu().getAnswer());
+                        user.setPassword(new RegisterPasswordMenu().getAnswer());
                         user.setRole(Role.getById(1)); // New User Role="READER";
-                        user.setFullName(new UserRegisterFullNameMenu().getAnswer());
+                        user.setFullName(new RegisterFullNameMenu().getAnswer());
                         
                         String temp;
                         do {
-                            temp=new UserRegisterZipCodeMenu().getAnswer();  
+                            temp=new RegisterZipCodeMenu().getAnswer();  
                         }   
                         while (!temp.matches("^\\d{6}$"));
                         user.setZipCode(Integer.parseInt((temp)));
 
-                        temp=new UserRegisterAddressMenu().getAnswer();
+                        temp=new RegisterAddressMenu().getAnswer();
                         System.out.println(temp);  
                         
                         user.setAddress(temp);
                         service.save(user);
-                        userId=user.getId(); //// +++
-                        role="SUBSCRIBER";
+                        AppState.setCurrentUserId(user.getId()); //// +++
+                        AppState.setCurrentRole("SUBSCRIBER");
                         
                         //System.out.println(userId);  
 
@@ -116,7 +117,7 @@ public class Runner {
                 
                     case "4": { // Exit
                         ConnectionPool.getInstance().destroy();
-                        System.out.println("Всего доброго!");
+                        System.out.println("Приложение завершило работу!");
                         System.exit(0);
                         return;
                     }
@@ -127,110 +128,15 @@ public class Runner {
                 }
                 
                 case "SUBSCRIBER": {
-                    //System.out.println("ВОШЕЛ ПОЛЬЗОВАТЕЛЬ!");
-                    MenuGenerator userMenu =new UserMenu();
-                    
-                    switch (userMenu.getAnswer()) {
-                    
-                    case "1": { // Find publication by index
-                        PublicationService service = ServiceLocator.getService(PublicationService.class);
-                        
-                        String temp;
-                        do {
-                            temp=new UserMenuGetIndex().getAnswer();  
-                        }   
-                        while (!temp.matches("^\\d{3,5}$"));
-                        
-                        Publication publication = service.findByIssn(Integer.parseInt(temp));
-                        if (publication!=null) System.out.println(publication.toString());
-                        else System.out.println("/n Издание не найдено!");
-                    
-                        break;
-                    }
-                    
-                    case "2": { // Find publications by title
-                        PublicationService service = ServiceLocator.getService(PublicationService.class);
-                        
-                        List<Publication> publications = service.findByTitleLike("%"+new UserMenuGetTitle().getAnswer()+"%");
-                        if (publications!=null) System.out.println(publications.toString());
-                        else System.out.println("/n Издания не найдены!");
-                    
-                        break;
-                    }
-                    
-                    case "3": { // List of publications
-                        PublicationService service = ServiceLocator.getService(PublicationService.class);
-                        List<Publication> publications = service.findAll();
-                        System.out.println(publications.toString());
-                    
-                        break;
-                    }
-                    
-                    case "4": { // List of subscriptions
-                        SubscriptionService service = ServiceLocator.getService(SubscriptionService.class);
-                        List<Subscription> subscriptions = service.findByUserId(userId);
-                        
-                        if (subscriptions!=null) System.out.println(subscriptions.toString());
-                        else System.out.println("/n Подписки не найдены!");
-                        break;
-                    }
-                    
-                    case "5": { // Subscribe
-                        PublicationService service = ServiceLocator.getService(PublicationService.class);
-                        
-                        Subscription subscription=new Subscription();
-                        
-                        String temp;
-                        do {
-                            temp=new UserMenuGetIndex().getAnswer();  
-                        }   
-                        while (!temp.matches("^\\d{3,5}$"));
-                        
-                        Publication publication = service.findByIssn(Integer.parseInt(temp));
-                        if (publication!=null) System.out.println(publication.toString());
-                        else {
-                            System.out.println("/n Издание не найдено!");
-                            break;
-                        }
-                        
-                        subscription.setUserId(userId);   
-                        subscription.setPublicationId(publication.getId());
-                        
-                        subscription.setSubsYear(new UserRegisterPasswordMenu().getAnswer());
-                        subscription.setRole(Role.getById(1)); // New User Role="READER";
-                        subscription.setFullName(new UserRegisterFullNameMenu().getAnswer());
-                        
-                        service.save(user);
-                        
-                        
-                        String temp;
-                        do {
-                            temp=new UserMenuGetIndex().getAnswer();  
-                        }   
-                        while (!temp.matches("^\\d{3,5}$"));
-                        
-                        Publication publication = service.save(publication);
-                        if (publication!=null) System.out.println(publication.toString());
-                        else System.out.println("/n Издание не найдено!");
-                    
-                        break;
-                    }
-                    
-                    case "6": { // Exit
-                        role="";
-                        break;
-                    }
-                    
-                    
-                    }
-                    
-                break;
-                } 
+                    SubscriberCommands.INSTANCE.run();
+                    ///AppState.setCurrentRole("");
+                    break;
+                }
                 
                 case "ADMINISTRATOR": {
-                    System.out.println("ВОШЕЛ АДМИНИСТРАТОР!");
+                    //System.out.println("ВОШЕЛ АДМИНИСТРАТОР!");
                     
-                    role="";
+                    ///AppState.setCurrentRole("");
                 break;
                 }      
                     

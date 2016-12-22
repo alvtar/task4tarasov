@@ -2,7 +2,7 @@ package console.menu;
 
 import java.util.ArrayList;
 
-public class UserRegisterFullNameMenu  extends MenuGeneratorImpl{
+public class RegisterAddressMenu  extends MenuGeneratorImpl {
     
     @Override
     public String getAnswer() {
@@ -10,7 +10,7 @@ public class UserRegisterFullNameMenu  extends MenuGeneratorImpl{
         
         lst.add("");
         lst.add("МЕНЮ РЕГИСТРАЦИИ НОВОГО ПОЛЬЗОВАТЕЛЯ");
-        lst.add("Введите Ф.И.О. пользователя:");
+        lst.add("Введите адрес нового пользователя:");
         lst.add("> ");
         
         return generate(lst);

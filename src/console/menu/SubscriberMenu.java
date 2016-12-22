@@ -2,7 +2,7 @@ package console.menu;
 
 import java.util.ArrayList;
 
-public class UserMenu  extends MenuGeneratorImpl {
+public class SubscriberMenu  extends MenuGeneratorImpl {
     public String getAnswer() {
         ArrayList<String> lst=new ArrayList<>();
         

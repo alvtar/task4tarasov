@@ -157,7 +157,7 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
 
     @Override
     public Publication readByIssn(Integer issn) throws PersistentException {
-        String sql = "SELECT `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `issn` = ?";
+        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `issn` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -167,7 +167,7 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             Publication publication = null;
             if (resultSet.next()) {
                 publication = new Publication();
-                /// publication.setId(id);
+                publication.setId(resultSet.getInt("id"));
                 publication.setIssn(resultSet.getInt("issn"));
                 publication.setTitle(resultSet.getString("title"));
                 publication.setMonthCost(resultSet.getFloat("monthCost"));

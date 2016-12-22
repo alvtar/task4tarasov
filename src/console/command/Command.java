@@ -1,5 +1,5 @@
 package console.command;
 
-public abstract class Command extends AppState{
+public abstract class Command extends AppState {
 
 }

@@ -1,21 +1,23 @@
 package console.command;
 
 public abstract class AppState {
-    private int userId=0;
-    private String role="";
+    private static int currentUserId=0;
+    private static String currentRole="";
     
     
-    public int getUserId() {
-        return userId;
+    public static int getCurrentUserId() {
+        return currentUserId;
     }
-    public void setUserId(int userId) {
-        this.userId = userId;
+
+    public static void setCurrentUserId(int currentUserId) {
+        AppState.currentUserId = currentUserId;
     }
-    public String getRole() {
-        return role;
+    public static String getCurrentRole() {
+        return currentRole;
     }
-    public void setRole(String role) {
-        this.role = role;
+
+    public static void setCurrentRole(String currentRole) {
+        AppState.currentRole = currentRole;
     }
     
     
