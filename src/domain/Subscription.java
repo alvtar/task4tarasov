@@ -1,6 +1,10 @@
 package domain;
 
 import java.util.Date;
+import exception.PersistentException;
+import service.PublicationService;
+import service.ServiceLocator;
+import service.UserService;
 
 public class Subscription extends Entity {
     private Date regDate;
@@ -9,9 +13,11 @@ public class Subscription extends Entity {
     private Integer subsYear;
     private Integer subsMonths;
     private Float paymentSum;
+    UserService userService = ServiceLocator.getService(UserService.class);
+    PublicationService publicationService = ServiceLocator.getService(PublicationService.class);
 
-    public Subscription(Date regDate, Integer userId, Integer publicationId, Integer subsYear, Integer subsMonths,
-            Float paymentSum) {
+    public Subscription(Date regDate, Integer userId, Integer publicationId, 
+            Integer subsYear, Integer subsMonths, Float paymentSum) {
         super();
         this.regDate = regDate;
         this.userId = userId;
@@ -73,12 +79,28 @@ public class Subscription extends Entity {
         this.paymentSum = paymentSum;
     }
 
-    @Override
-    public String toString() {
-        return "ПОДПИСКА: [Дата регистрации=" + regDate + ", Подписчик=" + userId.toString() + ", Издание="
-                + publicationId.toString() + ", Год подписки=" + subsYear + ", Месяцы подписки=" + subsMonths + ", Сумма платежа="
-                + paymentSum + " руб.]\n";
-        // TODO: переделать формат
+    // Convert decimal value of months to binary
+    public String getMonthsBinaryArray() {
+        StringBuilder sb = new StringBuilder();
+        int x = 1;
+        for (int i = 0; i < 12; i++) {
+            sb.append((subsMonths & x) == 0 ? "0" : "1");
+            x <<= 1;
+        }
+        return sb.toString();
     }
 
+    @Override
+    public String toString() {
+        String userFullName = "";
+        String publicationTitle = "";
+        try {
+            userFullName = userService.findById(userId).getFullName();
+            publicationTitle = publicationService.findById(publicationId).getTitle();
+        } catch (PersistentException e) {
+        }
+        return "ПОДПИСКА: [Дата регистрации=" + regDate + ", Подписчик=" + userFullName + ", Издание="
+                + publicationTitle + ", Год подписки=" + subsYear + ", Месяцы подписки=" + getMonthsBinaryArray()
+                + ", Сумма платежа=" + paymentSum + " руб.]\n";
+    }
 }

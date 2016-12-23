@@ -90,7 +90,7 @@ public class AdminCommands extends Command {
             if (publicationService.findByIssn((Integer.parseInt(temp))) != null) {
                 System.out.println("Издание c таким индексом уже существует!");
                 logger.info("Publication with ISSN '" + temp + "' already exist!");
-                System.out.println(publication.toString());
+                System.out.println(publicationService.findByIssn((Integer.parseInt(temp))));
                 break;
             }
             publication.setIssn(Integer.parseInt(temp));

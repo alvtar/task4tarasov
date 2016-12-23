@@ -8,7 +8,7 @@ public class GetTitleMenu  extends MenuGeneratorImpl {
     public String getAnswer() {
         ArrayList<String> lst=new ArrayList<>(); 
         lst.add("");
-        lst.add("МЕНЮ ПОИСКА ИЗДАНИЯ ПО НАЗВАНИЮ ИЛИ ТИПУ");
+        lst.add("МЕНЮ ПОИСКА ИЛИ ВВОДА ТИПА И НАЗВАНИЯ ИЗДАНИЯ");
         lst.add("Введите тип издания, название издания или его часть:");
         lst.add("> "); 
         return generate(lst);

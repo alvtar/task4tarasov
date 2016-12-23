@@ -112,15 +112,12 @@ public class SubscriberCommands extends Command {
 
                 tempYear = Integer.parseInt(temp);
                 realYear = calendar.get(Calendar.YEAR); 
-                realMonth = calendar.get(Calendar.MONTH)+1; 
-
-                isDatesCorrect = ((tempYear == realYear & realMonth < 12) | tempYear == (realYear+1));
+                
+                isDatesCorrect = (tempYear == realYear) | tempYear == (realYear+1);
 
                 if (!isDatesCorrect) {
-                    System.out.println("Введен некорректный год подписки. "
-                            + "В декабре возможна подписка только на следующий год!");
+                    System.out.println("Введен некорректный год подписки!");
                     logger.info("Incorrect year of subscription!");
-                    break;
                 }
                 
             } while (!isDatesCorrect);
@@ -154,7 +151,7 @@ public class SubscriberCommands extends Command {
             if (!isDatesCorrect) break;
             
             int tempMonths = 0;
-            for (int m = month1; m <= month2; m++) {
+            for (int m = month1-1; m < month2; m++) {
                 tempMonths = (int) (tempMonths + Math.pow(2, m));
             }
             subscription.setSubsMonths(tempMonths);
