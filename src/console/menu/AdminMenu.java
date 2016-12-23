@@ -13,8 +13,9 @@ public class AdminMenu  extends MenuGeneratorImpl {
         lst.add("2 - Поиск издания по наименованию;");
         lst.add("3 - Вывод полного списка изданий;");
         lst.add("4 - Вывод полного списка подписок;");
-        lst.add("5 - Новое издание;");
-        lst.add("6 - Выход.");
+        lst.add("5 - Вывод полного списка пользователей;");
+        lst.add("6 - Новое издание;");
+        lst.add("7 - Выход.");
         lst.add("> ");
         
         return generate(lst);

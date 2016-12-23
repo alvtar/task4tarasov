@@ -12,23 +12,13 @@ import domain.Publication;
 import exception.PersistentException;
 
 public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
-
     private static Logger logger = Logger.getLogger(PublicationDaoImpl.class);
 
-
-    /*public PublicationDaoImpl() {
-        Connection conn = null;
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-        } catch (PersistentException e) {
-        }
-        setConnection(conn);
-    }*/
-
-    
+    // Create new publication
     @Override
     public Integer create(Publication publication) throws PersistentException {
-        String sql = "INSERT INTO `publications` (`issn`, `title`, `monthCost`, `active`, `lastUpdate`) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `publications` (`issn`, `title`, `monthCost`, `active`) "
+                + "VALUES (?, ?, ?, ?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -37,19 +27,16 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             statement.setString(2, publication.getTitle());
             statement.setFloat(3, publication.getMonthCost());
             statement.setBoolean(4, publication.getActive());
-
-            // ?????????????????? auto set
-            statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
-
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
-                logger.error("There is no autoincremented index after trying to add record into table `publications`");
+                logger.error("There is no autoincremented index after trying to add record "
+                        + "into table `publications`");
                 throw new PersistentException();
             }
-        } catch (SQLException  | NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -66,10 +53,12 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             }
         }
     }
-
+    
+    // Read publication by Id
     @Override
     public Publication read(Integer id) throws PersistentException {
-        String sql = "SELECT `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `id` = ?";
+        String sql = "SELECT `issn`, `title`, `monthCost`, `active`, "
+                + "`lastUpdate` FROM `publications` WHERE `id` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -79,7 +68,7 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             Publication publication = null;
             if (resultSet.next()) {
                 publication = new Publication();
-                //// publication.setId(id);
+                publication.setId(id);
                 publication.setIssn(resultSet.getInt("issn"));
                 publication.setTitle(resultSet.getString("title"));
                 publication.setMonthCost(resultSet.getFloat("monthCost"));
@@ -87,7 +76,7 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
                 publication.setLastUpdate(resultSet.getDate("lastUpdate"));
             }
             return publication;
-        } catch (SQLException  | NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -105,19 +94,18 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
         }
     }
 
+    // Update publication parameters
     @Override
     public void update(Publication publication) throws PersistentException {
-        /// ISSN - not need??????????????
-        String sql = "UPDATE `publications` SET `issn` = ?, `title` = ?, `monthCost` = ?, `active`=?, `lastUpdate`=? WHERE `id` = ?";
+        String sql = "UPDATE `publications` SET `title` = ?, "
+                + "`monthCost` = ?, `active`=? WHERE `id` = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, publication.getIssn());
-            statement.setString(2, publication.getTitle());
-            statement.setFloat(3, publication.getMonthCost());
-            statement.setBoolean(4, publication.getActive());
-            statement.setDate(5, new java.sql.Date(System.currentTimeMillis()));
-            statement.setInt(1, publication.getId());
+            statement.setString(1, publication.getTitle());
+            statement.setFloat(2, publication.getMonthCost());
+            statement.setBoolean(3, publication.getActive());
+            statement.setInt(4, publication.getId());
             statement.executeUpdate();
         } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
@@ -132,7 +120,8 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             }
         }
     }
-
+    
+    // Delete publication
     @Override
     public void delete(Integer id) throws PersistentException {
         String sql = "DELETE FROM `publications` WHERE `id` = ?";
@@ -154,10 +143,13 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             }
         }
     }
-
+    
+    // Read publication by ISSN - International Standard Serial Number 
+    // (also called 'Index' in ex-USSR countries)
     @Override
     public Publication readByIssn(Integer issn) throws PersistentException {
-        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `issn` = ?";
+        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, "
+                + "`lastUpdate` FROM `publications` WHERE `issn` = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -175,7 +167,7 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
                 publication.setLastUpdate(resultSet.getDate("lastUpdate"));
             }
             return publication;
-        } catch (SQLException  | NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -192,10 +184,12 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             }
         }
     }
-
+    
+    // Find publications by part of Title
     @Override
     public List<Publication> readByTitleLike(String titleLike) throws PersistentException {
-        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` WHERE `title` LIKE ?";
+        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` "
+                + "FROM `publications` WHERE `title` LIKE ?";
 
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -213,10 +207,10 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
                 publication.setMonthCost(resultSet.getFloat("monthCost"));
                 publication.setActive(resultSet.getBoolean("active"));
                 publication.setLastUpdate(resultSet.getDate("lastUpdate"));
-                publications.add(publication); 
+                publications.add(publication);
             }
             return publications;
-        } catch (SQLException  | NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {
@@ -233,11 +227,12 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
             }
         }
     }
-
+    
+    // Read all publications 
     @Override
     public List<Publication> read() throws PersistentException {
-        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, `lastUpdate` FROM `publications` ORDER BY `id`";
-
+        String sql = "SELECT `id`, `issn`, `title`, `monthCost`, `active`, "
+                + "`lastUpdate` FROM `publications` ORDER BY `id`";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -256,7 +251,7 @@ public class PublicationDaoImpl extends BaseDaoImpl implements PublicationDao {
                 publications.add(publication);
             }
             return publications;
-        } catch (SQLException  | NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             throw new PersistentException(e);
         } finally {
             try {

@@ -8151,3 +8151,305 @@ Connection was received from pool. Current pool size: 1 used connections; 9 free
 2016-12-23 01:55:31,734
 DEBUG	dao.pool.ConnectionPool.freeConnection:68
 Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 10:56:29,234
+FATAL	dao.pool.ConnectionPool.init:91
+It is impossible to initialize connection pool
+com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
+	at com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:989)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:341)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2251)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2284)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2083)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:806)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:47)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:410)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:328)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at dao.pool.ConnectionPool.createConnection(ConnectionPool.java:103)
+	at dao.pool.ConnectionPool.init(ConnectionPool.java:88)
+	at console.AppInit.init(AppInit.java:48)
+	at console.Runner.init(Runner.java:26)
+	at console.Runner.main(Runner.java:32)
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.TwoStacksPlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at com.mysql.jdbc.StandardSocketFactory.connect(StandardSocketFactory.java:211)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:300)
+	... 19 more
+
+2016-12-23 10:56:29,265
+FATAL	console.AppInit.init:51
+It is impossible to initialize application
+exception.PersistentException: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at dao.pool.ConnectionPool.init(ConnectionPool.java:92)
+	at console.AppInit.init(AppInit.java:48)
+	at console.Runner.init(Runner.java:26)
+	at console.Runner.main(Runner.java:32)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
+	at com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:989)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:341)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2251)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2284)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2083)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:806)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:47)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:410)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:328)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at dao.pool.ConnectionPool.createConnection(ConnectionPool.java:103)
+	at dao.pool.ConnectionPool.init(ConnectionPool.java:88)
+	... 3 more
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.TwoStacksPlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at com.mysql.jdbc.StandardSocketFactory.connect(StandardSocketFactory.java:211)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:300)
+	... 19 more
+
+2016-12-23 10:56:46,843
+ERROR	dao.pool.ConnectionPool.getConnection:51
+It is impossible to connect to a database
+com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
+	at com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:989)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:341)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2251)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2284)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2083)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:806)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:47)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:425)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:410)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:328)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at java.sql.DriverManager.getConnection(Unknown Source)
+	at dao.pool.ConnectionPool.createConnection(ConnectionPool.java:103)
+	at dao.pool.ConnectionPool.getConnection(ConnectionPool.java:45)
+	at dao.mysql.BaseDaoImpl.<init>(BaseDaoImpl.java:14)
+	at dao.mysql.UserDaoImpl.<init>(UserDaoImpl.java:15)
+	at service.UserServiceImpl.findByLoginAndPassword(UserServiceImpl.java:26)
+	at console.Runner.main(Runner.java:47)
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.TwoStacksPlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at com.mysql.jdbc.StandardSocketFactory.connect(StandardSocketFactory.java:211)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:300)
+	... 20 more
+
+2016-12-23 10:57:44,187
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 10:57:44,484
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 10:57:57,656
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 10:57:57,703
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 10:58:39,453
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 10:58:39,812
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 11:00:02,531
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 11:00:02,687
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 11:00:02,687
+ERROR	console.Runner.main:55
+Incorrect login or password!
+
+2016-12-23 11:00:28,812
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 11:00:28,828
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 11:00:36,437
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 11:00:36,453
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 11:00:51,031
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 11:00:51,109
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 11:00:51,109
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 11:00:51,125
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:02:10,062
+INFO	console.Runner.main:64
+Incorrect login or password!
+
+2016-12-23 13:03:33,515
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 13:03:33,640
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:03:33,640
+INFO	console.Runner.main:64
+Incorrect login or password!
+
+2016-12-23 13:03:52,390
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 13:03:52,390
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:03:52,406
+INFO	console.Runner.main:75
+User with login 'admin' already exist!
+
+2016-12-23 13:04:00,968
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 13:04:00,984
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:04:09,390
+INFO	console.Runner.main:106
+Exit from application!
+
+2016-12-23 13:11:47,500
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 13:11:47,625
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:11:47,625
+INFO	console.Runner.main:75
+User with login 'admin' already exist!
+
+2016-12-23 13:11:58,078
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 13:11:58,093
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:11:58,093
+INFO	console.Runner.main:75
+User with login '1' already exist!
+
+2016-12-23 13:12:03,625
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 13:12:03,625
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:12:20,484
+DEBUG	dao.pool.ConnectionPool.getConnection:56
+Connection was received from pool. Current pool size: 1 used connections; 9 free connection
+
+2016-12-23 13:12:20,531
+DEBUG	dao.pool.ConnectionPool.freeConnection:68
+Connection was returned into pool. Current pool size: 0 used connections; 10 free connection
+
+2016-12-23 13:12:20,531
+INFO	console.Runner.main:94
+User with login '2' registered!
+
+2016-12-23 13:12:20,531
+INFO	console.Runner.main:118
+Enter to SUBSCRIBER Menu!
+
+2016-12-23 13:12:49,875
+INFO	console.command.SubscriberCommands.run:168
+Exit from SUBSCRIBER MENU to MAIN MENU!
+
+2016-12-23 13:12:52,421
+INFO	console.Runner.main:110
+Exit from application!

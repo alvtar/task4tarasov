@@ -8,24 +8,21 @@ public class User extends Entity {
     private Integer zipCode;
     private String address;
 
-    
-    public User(String login, String password, Role role,
+    public User(String login, String password, Role role, 
             String fullName, Integer zipCode, String address) {
         super();
         this.login = login;
         this.password = password;
         this.role = role;
-        
         this.fullName = fullName;
         this.zipCode = zipCode;
-        this.address = address; 
+        this.address = address;
     }
 
     public User() {
         super();
     }
-    
-    
+
     public String getLogin() {
         return login;
     }
@@ -73,13 +70,11 @@ public class User extends Entity {
     public void setAddress(String address) {
         this.address = address;
     }
-    
+
     @Override
     public String toString() {
-            return "User [login="+login + ", password=" + password + ", role="
-                            + role + ", fullName=" + fullName + ", zipCode=" + zipCode
-                            + ", address=" + address + "]\n";
-            // переделать формат
+        return "ПОЛЬЗОВАТЕЛЬ: [Логин=" + login + ", Пароль=" + password + ", Роль=" + role + ", Ф.И.О.=" + fullName
+                + ", Почтовый индекс=" + zipCode + ", Адрес=" + address + "]\n";
+        // переделать формат
     }
-
 }

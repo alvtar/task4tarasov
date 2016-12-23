@@ -28,13 +28,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public Subscription findByPublicationId(Integer publicationId) throws PersistentException {
+    public List<Subscription> findByPublicationId(Integer publicationId) throws PersistentException {
         SubscriptionDao dao = new SubscriptionDaoImpl();
         return dao.readByPublicationId(publicationId);
     }
 
     @Override
-    public Subscription findBySubsYear(Integer subsYear) throws PersistentException {
+    public List<Subscription> findBySubsYear(Integer subsYear) throws PersistentException {
         SubscriptionDao dao = new SubscriptionDaoImpl();
         return dao.readBySubsYear(subsYear);
     }

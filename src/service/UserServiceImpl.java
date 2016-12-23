@@ -6,7 +6,6 @@ import dao.mysql.UserDaoImpl;
 import domain.User;
 import exception.PersistentException;
 
-
 public class UserServiceImpl implements UserService {
 
     @Override
@@ -25,6 +24,12 @@ public class UserServiceImpl implements UserService {
     public User findByLoginAndPassword(String login, String password) throws PersistentException {
         UserDao dao = new UserDaoImpl();
         return dao.readByLoginAndPassword(login, password);
+    }
+
+    @Override
+    public boolean isUniqueLogin(String login) throws PersistentException {
+        UserDao dao = new UserDaoImpl();
+        return dao.checkUnique(login);
     }
 
     @Override

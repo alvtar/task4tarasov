@@ -16,8 +16,11 @@ import exception.PersistentException;
 // Application initialisation class
 public class AppInit {
     private static Logger logger = Logger.getLogger(AppInit.class);
+    
+  //public static final Level LOG_LEVEL = Level.ALL;  // Logging all events include Debug (many messages in console)
+    public static final Level LOG_LEVEL = Level.WARN; // Logging only Warning, Error & Fatal evens
+    
     public static final String LOG_FILE_NAME = "log.txt";
-    public static final Level LOG_LEVEL = Level.ALL;
     public static final String LOG_MESSAGE_FORMAT = "%n%d%n%p\t%C.%M:%L%n%m%n";
 
     public static final String DB_PROPERTIES_FILE = "db.properties";

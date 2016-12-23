@@ -6,8 +6,8 @@ CREATE TABLE `users` (
     `login` VARCHAR(32) NOT NULL UNIQUE,
     `password` VARCHAR(32) NOT NULL,
     /*
-    * 0 - ADMIN
-    * 1 - READER
+    * 0 - ADMINISTRATOR
+    * 1 - SUBSCRIBER
     */
     `role` TINYINT NOT NULL,
     `fullName` VARCHAR(150) NOT NULL,

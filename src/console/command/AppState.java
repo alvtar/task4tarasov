@@ -1,5 +1,6 @@
 package console.command;
 
+// Global variables for application
 public abstract class AppState {
     private static int currentUserId = 0;
     private static String currentRole = "";

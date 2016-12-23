@@ -9,5 +9,5 @@ public interface UserDao extends Dao<User> {
 
     User readByLoginAndPassword(String login, String password) throws PersistentException;
 
-    boolean chechUnique(String login) throws PersistentException;
+    boolean checkUnique(String login) throws PersistentException;
 }

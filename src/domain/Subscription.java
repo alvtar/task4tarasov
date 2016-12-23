@@ -4,8 +4,6 @@ import java.util.Date;
 
 public class Subscription extends Entity {
     private Date regDate;
-    
-    ///// User user; Publication publication;
     private Integer userId;
     private Integer publicationId;
     private Integer subsYear;
@@ -27,7 +25,6 @@ public class Subscription extends Entity {
         super();
     }
 
-    
     public Date getRegDate() {
         return regDate;
     }
@@ -75,12 +72,13 @@ public class Subscription extends Entity {
     public void setPaymentSum(Float paymentSum) {
         this.paymentSum = paymentSum;
     }
-    
+
     @Override
     public String toString() {
-            return "Subscription [regDate="+regDate + ", user=" + userId.toString() + ", publication="
-                            + publicationId.toString() + ", subsYear=" + subsYear + ", subsMonths=" + subsMonths + ", paymentSum=" + paymentSum + "]\n";
-            // переделать формат
+        return "ПОДПИСКА: [Дата регистрации=" + regDate + ", Подписчик=" + userId.toString() + ", Издание="
+                + publicationId.toString() + ", Год подписки=" + subsYear + ", Месяцы подписки=" + subsMonths + ", Сумма платежа="
+                + paymentSum + "]\n";
+        // TODO: переделать формат
     }
 
 }

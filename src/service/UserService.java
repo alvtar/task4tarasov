@@ -1,10 +1,8 @@
 package service;
 
 import java.util.List;
-
 import domain.User;
 import exception.PersistentException;
-
 
 public interface UserService {
     List<User> findAll() throws PersistentException;
@@ -12,6 +10,8 @@ public interface UserService {
     User findById(Integer id) throws PersistentException;
 
     User findByLoginAndPassword(String login, String password) throws PersistentException;
+
+    boolean isUniqueLogin(String login) throws PersistentException;
 
     void save(User user) throws PersistentException;
 

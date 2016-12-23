@@ -3,6 +3,7 @@ package console.command;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import org.apache.log4j.Logger;
 import console.menu.*;
 import domain.Publication;
 import domain.Subscription;
@@ -13,8 +14,8 @@ import service.SubscriptionService;
 
 
 public class SubscriberCommands extends Command {
-
     public static final SubscriberCommands INSTANCE = new SubscriberCommands();
+    private static Logger logger = Logger.getLogger(SubscriberCommands.class);
 
     public void run() throws PersistentException {
         MenuGenerator userMenu = new SubscriberMenu();
@@ -28,28 +29,32 @@ public class SubscriberCommands extends Command {
         boolean isDatesCorrect = false;
 
         switch (userMenu.getAnswer()) {
-        case "1": { // Find publication by index
+        case "1": { // Find publication by ISSN (index)
             PublicationService service = ServiceLocator.getService(PublicationService.class);
 
             do {
                 temp = new GetIssnMenu().getAnswer();
-            } while (!temp.matches("^\\d{3,5}$"));
+            } while (!temp.matches("^\\d{3,8}$"));
 
             Publication publication = service.findByIssn(Integer.parseInt(temp));
-            if (publication != null)
+            if (publication != null) {
                 System.out.println(publication.toString());
-            else
+            } else {
                 System.out.println("Издание не найдено!");
+                logger.info("Publication not found!");
+            }
             break;
         }
 
         case "2": { // Find publications by title
             PublicationService service = ServiceLocator.getService(PublicationService.class);
             List<Publication> publications = service.findByTitleLike("%" + new GetTitleMenu().getAnswer() + "%");
-            if (publications != null)
+            if (publications != null) {
                 System.out.println(publications.toString());
-            else
+            } else {
                 System.out.println("Издания не найдены!");
+                logger.info("Publications not found!");
+            }
             break;
         }
 
@@ -63,10 +68,12 @@ public class SubscriberCommands extends Command {
         case "4": { // List of subscriber subscriptions
             SubscriptionService service = ServiceLocator.getService(SubscriptionService.class);
             List<Subscription> subscriptions = service.findByUserId(getCurrentUserId());
-            if (subscriptions != null)
+            if (subscriptions != null) {
                 System.out.println(subscriptions.toString());
-            else
+            } else {
                 System.out.println("Подписки не найдены!");
+                logger.info("Subscriptions not found!");
+            }
             break;
         }
 
@@ -77,18 +84,20 @@ public class SubscriberCommands extends Command {
 
             do {
                 temp = new GetIssnMenu().getAnswer();
-            } while (!temp.matches("^\\d{3,5}$"));
+            } while (!temp.matches("^\\d{3,8}$"));
 
             Publication publication = publicationService.findByIssn((Integer.parseInt(temp)));
-            if (publication != null)
+            if (publication != null) {
                 System.out.println(publication.toString());
+            }
             else {
-                System.out.println("/n Издание не найдено!");
+                System.out.println("Издание не найдено!");
+                logger.info("Publication not found!");
                 break;
             }
             subscription.setUserId(getCurrentUserId());
             subscription.setPublicationId(publication.getId());
-            
+
             do {
                 do {
                     temp = new GetSubsYearMenu().getAnswer();
@@ -100,8 +109,10 @@ public class SubscriberCommands extends Command {
 
                 isDatesCorrect = ((tempYear == realYear & realMonth < 12) | tempYear == ++realYear);
 
-                if (!isDatesCorrect)
-                    System.out.println("/n Введен некорректный год подписки!");
+                if (!isDatesCorrect) {
+                    System.out.println("Введен некорректный год подписки!");
+                    logger.info("Incorrect year of subscription!");
+                }
             } while (!isDatesCorrect);
             subscription.setSubsYear(tempYear);
 
@@ -120,8 +131,11 @@ public class SubscriberCommands extends Command {
                 isDatesCorrect = ((month1 >= 1 & month2 <= 12 & month2 >= month1)
                         & ((month1 > realMonth & tempYear == realYear) | (tempYear == ++realYear)));
 
-                if (!isDatesCorrect)
-                    System.out.println("/n Введены некорректные месяцы подписки на " + tempYear + " год!");
+                if (!isDatesCorrect) {
+                    System.out.println("Введены некорректные месяцы подписки на " + tempYear + " год!");
+                    logger.info("Incorrect months for subscription!");
+                }
+                    
             } while (!isDatesCorrect);
 
             int tempMonths = 0;
@@ -140,15 +154,18 @@ public class SubscriberCommands extends Command {
             if (confirm.contains("y") | confirm.contains("Y") | confirm.contains("д") | confirm.contains("Д")) {
                 subscriptionService.save(subscription);
                 System.out.println("Подписка сохранена!");
+                logger.info("Subscription with Id '" + subscription.getId() + "' is saved!");
                 System.out.println(subscriptionService.findById(subscription.getId()));
             } else {
                 System.out.println("Подписка отменена!");
+                logger.info("Subscription is canceled!");
             }
             break;
         }
 
         case "6": { // Exit
             setCurrentRole("");
+            logger.info("Exit from SUBSCRIBER MENU to MAIN MENU!");
             return;
         }
         }
