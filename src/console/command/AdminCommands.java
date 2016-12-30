@@ -99,7 +99,7 @@ public class AdminCommands extends Command {
             do {
                 temp = new GetMonthCostMenu().getAnswer();
             } while (!temp.matches("[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]"));
-
+ 
             publication.setMonthCost(Float.parseFloat(temp));
             publication.setActive(true); /// TODO --- active
 
